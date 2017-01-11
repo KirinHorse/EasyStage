@@ -8,7 +8,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.3'
-        classpath 'org.multi-os-engine:moe-gradle:1.2.4'
+        // classpath 'org.multi-os-engine:moe-gradle:1.2.4'
     }
 }
 
@@ -45,21 +45,21 @@ project(":desktop") {
     }
 }
 
-project(":android") {
-    apply plugin: "android"
+// project(":android") {
+//     apply plugin: "android"
 
-    configurations { natives }
+//     configurations { natives }
 
-    dependencies {
-        compile project(":core")
-        compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
-    }
-}
+//     dependencies {
+//         compile project(":core")
+//         compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
+//         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
+//         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
+//         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
+//         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
+//         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
+//     }
+// }
 
 project(":core") {
     apply plugin: "java"
@@ -72,14 +72,14 @@ project(":core") {
     }
 }
 
-project(":ios-moe") {
-    apply plugin: "moe"
+// project(":ios-moe") {
+//     apply plugin: "moe"
 
-    configurations { natives }
+//     configurations { natives }
 
-    dependencies {
-        compile project(":core")
-        compile "com.badlogicgames.gdx:gdx-backend-moe:$gdxVersion"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
-    }
-}
+//     dependencies {
+//         compile project(":core")
+//         compile "com.badlogicgames.gdx:gdx-backend-moe:$gdxVersion"
+//         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
+//     }
+// }
