@@ -75,14 +75,14 @@ public class UICreator extends Table {
         tf.setDisabled(!meta.editable());
         tf.setTextFieldFilter(getFilter(meta.filter()));
         tf.setMaxLength(meta.maxLength());
-        add(tf).center().maxHeight(20).prefHeight(20).row();
+        add(tf).colspan(3).prefHeight(20).row();
     }
 
     private void slider(Field field, float value) {
         addName(field.getName());
         MetaSlider meta = field.getAnnotation(MetaSlider.class);
         Slider slider = new Slider(meta.minValue(), meta.maxValue(), meta.step(), false, getSkin());
-        add(slider).maxHeight(20).row();
+        add(slider).colspan(3).row();
     }
 
     private void selectBox(Field field, String value) {
@@ -100,29 +100,27 @@ public class UICreator extends Table {
         }
         sb.setItems(items);
         sb.setSelected(value);
-        add(sb).maxHeight(20).prefHeight(20).row();
+        add(sb).colspan(3).prefHeight(20).row();
     }
 
     private void checkBox(Field field, boolean value) {
         CheckBox cb = new CheckBox(field.getName(), getSkin());
         cb.setChecked(value);
-        add(cb).maxHeight(20).colspan(2).row();
+        add(cb).colspan(4).row();
     }
 
     private void table(Field field, Serializable value) {
         addName(field.getName()).left().colspan(2);
-        row();
         UICreator table = new UICreator(getSkin());
         table.create(value);
-        table.padLeft(10);
-        add(table).colspan(2).row();
+        add(table).colspan(3).row();
     }
 
 
     private Cell addName(String name) {
         NativeLabel lab = new NativeLabel(name, getSkin().get(Label.LabelStyle.class));
         lab.setAlignment(Align.center, Align.center);
-        return add(lab).center().maxHeight(20).prefHeight(20);
+        return add(lab).center().prefHeight(20);
     }
 
     private static TextField.TextFieldFilter getFilter(MetaText.Filter filter) {

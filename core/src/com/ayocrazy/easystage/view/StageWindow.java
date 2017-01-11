@@ -20,9 +20,9 @@ public class StageWindow extends Window {
         creator = new UICreator(skin);
         creator.pad(0, 2, 0, 2);
         sp = new ScrollPane(creator, skin);
-        sp.setupOverscroll(20, 20, 100);
+        sp.setupOverscroll(20, 20, 80);
         sp.setFlingTime(0.6f);
-        add(sp).pad(3);
+        add(sp).left();
         setResizable(true);
         setResizeBorder(10);
     }
@@ -33,5 +33,10 @@ public class StageWindow extends Window {
         creator.clear();
         creator.getCells().clear();
         creator.create(bean);
+    }
+
+    @Override
+    protected void sizeChanged() {
+        super.sizeChanged();
     }
 }

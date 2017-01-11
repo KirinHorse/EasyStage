@@ -40,23 +40,11 @@ public class MainStage extends Stage {
         super(new ScreenViewport());
         instance = this;
 //        setDebugAll(true);
-
-        skin = new Skin(Gdx.files.internal("skin/skin.json"));
-        font = new NativeFont();
-        font.setSize(15);
-        TextField.TextFieldStyle style = skin.get(TextField.TextFieldStyle.class);
-        style.font = font;
-        Label.LabelStyle labStyle = skin.get(Label.LabelStyle.class);
-        labStyle.font = font;
-        SelectBox.SelectBoxStyle sbStyle = skin.get(SelectBox.SelectBoxStyle.class);
-        sbStyle.font = font;
-        CheckBox.CheckBoxStyle cbStyle = skin.get(CheckBox.CheckBoxStyle.class);
-        cbStyle.font = font;
-
+        initSkin();
         stageWindow = new StageWindow("", skin);
         actorTree = new ActorTree(skin);
         log = new LogWindow("log", skin);
-        stageWindow.setSize(getWidth() * 0.3f, getHeight() * 0.6f);
+        stageWindow.setSize(getWidth() * 0.4f, getHeight() * 0.6f);
         log.setSize(getWidth(), getHeight() * 0.2f);
         stageWindow.setPosition(getWidth(), getHeight(), Align.topRight);
         addActor(stageWindow);
@@ -69,6 +57,20 @@ public class MainStage extends Stage {
 //            e.printStackTrace();
         stageWindow.setStageBean(BeanGenerator.genStage(this));
 //        }
+    }
+
+    private void initSkin() {
+        skin = new Skin(Gdx.files.internal("skin/skin.json"));
+        font = new NativeFont();
+        font.setSize(15);
+        TextField.TextFieldStyle style = skin.get(TextField.TextFieldStyle.class);
+        style.font = font;
+        Label.LabelStyle labStyle = skin.get(Label.LabelStyle.class);
+        labStyle.font = font;
+        SelectBox.SelectBoxStyle sbStyle = skin.get(SelectBox.SelectBoxStyle.class);
+        sbStyle.font = font;
+        CheckBox.CheckBoxStyle cbStyle = skin.get(CheckBox.CheckBoxStyle.class);
+        cbStyle.font = font;
     }
 
     public void resize(int width, int height) {
