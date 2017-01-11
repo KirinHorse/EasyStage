@@ -15,9 +15,9 @@ public class ViewportBean implements Serializable {
     @MetaSelectBox(items = {"fit", "fill", "fillX", "fillY", "stretch", "stretchX", "stretchY", "none"})
     private String scalling;
     @MetaText(editable = true, filter = MetaText.Filter.INT)
-    private float worldWidth, worldHeight;
+    private float[] worldSize;
     @MetaText(editable = true, filter = MetaText.Filter.INT)
-    private int screenX, screenY, screenWidth, screenHeight;
+    private int[] screenPos, screenSize;
 
     public String getType() {
         return type;
@@ -35,51 +35,27 @@ public class ViewportBean implements Serializable {
         this.scalling = scalling;
     }
 
-    public float getWorldWidth() {
-        return worldWidth;
+    public float[] getWorldSize() {
+        return worldSize;
     }
 
-    public void setWorldWidth(float worldWidth) {
-        this.worldWidth = worldWidth;
+    public void setWorldSize(float[] worldSize) {
+        this.worldSize = worldSize;
     }
 
-    public float getWorldHeight() {
-        return worldHeight;
+    public int[] getScreenPos() {
+        return screenPos;
     }
 
-    public void setWorldHeight(float worldHeight) {
-        this.worldHeight = worldHeight;
+    public void setScreenPos(int[] screenPos) {
+        this.screenPos = screenPos;
     }
 
-    public int getScreenX() {
-        return screenX;
+    public int[] getScreenSize() {
+        return screenSize;
     }
 
-    public void setScreenX(int screenX) {
-        this.screenX = screenX;
-    }
-
-    public int getScreenY() {
-        return screenY;
-    }
-
-    public void setScreenY(int screenY) {
-        this.screenY = screenY;
-    }
-
-    public int getScreenWidth() {
-        return screenWidth;
-    }
-
-    public void setScreenWidth(int screenWidth) {
-        this.screenWidth = screenWidth;
-    }
-
-    public int getScreenHeight() {
-        return screenHeight;
-    }
-
-    public void setScreenHeight(int screenHeight) {
-        this.screenHeight = screenHeight;
+    public void setScreenSize(int[] screenSize) {
+        this.screenSize = screenSize;
     }
 }

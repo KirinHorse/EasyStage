@@ -22,6 +22,8 @@ import net.mwplay.nativefont.NativeTextField;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ayo on 2017/1/11.
@@ -29,9 +31,11 @@ import java.lang.reflect.Field;
 
 public class UICreator extends Table {
     private static TextField.TextFieldFilter floatFilter, intFilter;
+    private static final int lineHeight = 25;
 
     public UICreator(Skin skin) {
         super(skin);
+        setBackground(skin.getDrawable("default-rect"));
 //        setDebug(true);
     }
 
@@ -46,7 +50,12 @@ public class UICreator extends Table {
                 Annotation[] annotations = f.getDeclaredAnnotations();
                 for (Annotation anno : annotations) {
                     if (anno instanceof MetaText) {
-                        text(f, obj.toString());
+                        if (f.getType().isArray()) {
+                            if (obj == null) obj = new float[2];
+                            vector(f, obj);
+                        } else {
+                            text(f, obj.toString());
+                        }
                     } else if (anno instanceof MetaSlider) {
                         slider(f, (Float) obj);
                     } else if (anno instanceof MetaSelectBox) {
@@ -75,14 +84,43 @@ public class UICreator extends Table {
         tf.setDisabled(!meta.editable());
         tf.setTextFieldFilter(getFilter(meta.filter()));
         tf.setMaxLength(meta.maxLength());
-        add(tf).center().maxHeight(20).prefHeight(20).row();
+        tf.setProgrammaticChangeEvents(false);
+        add(tf).height(lineHeight).left().row();
+    }
+
+    private void vector(Field field, Object valueArray) {
+        List list = new ArrayList();
+        int index = 0;
+        while (true) {
+            try {
+                list.add(java.lang.reflect.Array.get(valueArray, index++));
+            } catch (ArrayIndexOutOfBoundsException e) {
+                break;
+            }
+        }
+        addName(field.getName());
+        MetaText meta = field.getAnnotation(MetaText.class);
+        Table table = new Table(getSkin());
+        char[] prefix = meta.prefix();
+        boolean useNum = prefix.length < list.size();
+        for (int i = 0; i < list.size(); i++) {
+            NativeLabel lab = new NativeLabel(useNum ? (i + 1 + "") : (prefix[i] + ""),
+                    getSkin().get(Label.LabelStyle.class));
+            table.add(lab).height(lineHeight);
+            NativeTextField tf = new NativeTextField(list.get(i) + "", getSkin().get(TextField.TextFieldStyle.class));
+            tf.setTextFieldFilter(getFilter(meta.filter()));
+            tf.setProgrammaticChangeEvents(false);
+            tf.setMaxLength(meta.maxLength());
+            table.add(tf).width(80).height(lineHeight).padRight(5);
+        }
+        add(table).height(lineHeight).left().row();
     }
 
     private void slider(Field field, float value) {
         addName(field.getName());
         MetaSlider meta = field.getAnnotation(MetaSlider.class);
         Slider slider = new Slider(meta.minValue(), meta.maxValue(), meta.step(), false, getSkin());
-        add(slider).maxHeight(20).row();
+        add(slider).height(lineHeight).left().row();
     }
 
     private void selectBox(Field field, String value) {
@@ -100,58 +138,44 @@ public class UICreator extends Table {
         }
         sb.setItems(items);
         sb.setSelected(value);
-        add(sb).maxHeight(20).prefHeight(20).row();
+        add(sb).height(lineHeight).left().row();
     }
 
     private void checkBox(Field field, boolean value) {
         CheckBox cb = new CheckBox(field.getName(), getSkin());
         cb.setChecked(value);
-        add(cb).maxHeight(20).colspan(2).row();
+        add(cb).height(lineHeight).left().colspan(2).row();
     }
 
     private void table(Field field, Serializable value) {
-        addName(field.getName()).left().colspan(2);
-        row();
+        addName(field.getName()).fillY().expandY().center();
         UICreator table = new UICreator(getSkin());
         table.create(value);
-        table.padLeft(10);
-        add(table).colspan(2).row();
+        add(table).left().row();
     }
 
 
     private Cell addName(String name) {
         NativeLabel lab = new NativeLabel(name, getSkin().get(Label.LabelStyle.class));
         lab.setAlignment(Align.center, Align.center);
-        return add(lab).center().maxHeight(20).prefHeight(20);
+        return add(lab).right().height(lineHeight).padRight(10);
     }
 
     private static TextField.TextFieldFilter getFilter(MetaText.Filter filter) {
         switch (filter) {
             case INT:
-                if (intFilter == null)
+                if (intFilter == null) {
                     intFilter = new TextField.TextFieldFilter.DigitsOnlyFilter();
+                }
                 return intFilter;
             case FLOAT:
                 if (floatFilter == null) {
                     floatFilter = new TextField.TextFieldFilter() {
                         @Override
                         public boolean acceptChar(TextField textField, char c) {
+                            System.out.println(c + "");
                             if (Character.isDigit(c)) return true;
-                            if (c == '.') {
-                                if (textField.getText().contains(".")) return false;
-                                if (textField.getText().equals("")) {
-                                    textField.setText("0");
-                                    return true;
-                                }
-                            }
-                            if (c == '-') {
-                                if (textField.getText().startsWith("-")) {
-                                    textField.setText(textField.getText().substring(1));
-                                } else {
-                                    textField.setText("-" + textField.getText());
-                                }
-                                return false;
-                            }
+                            if (c == '.' || c == '-') return true;
                             return false;
                         }
                     };

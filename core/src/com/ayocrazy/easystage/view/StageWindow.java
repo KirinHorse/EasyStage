@@ -18,11 +18,12 @@ public class StageWindow extends Window {
     public StageWindow(String title, Skin skin) {
         super(title, skin);
         creator = new UICreator(skin);
-        creator.pad(0, 2, 0, 2);
+        creator.pad(0, 15, 0, 15);
+        creator.left().top();
         sp = new ScrollPane(creator, skin);
         sp.setupOverscroll(20, 20, 100);
         sp.setFlingTime(0.6f);
-        add(sp).pad(3);
+        add(sp).pad(3).expand().fill();
         setResizable(true);
         setResizeBorder(10);
     }

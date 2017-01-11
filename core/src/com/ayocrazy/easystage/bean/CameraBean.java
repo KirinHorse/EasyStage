@@ -10,78 +10,32 @@ import java.io.Serializable;
 
 public class CameraBean implements Serializable {
     @MetaText(editable = true, filter = MetaText.Filter.FLOAT)
-    private float posX, posY, posZ, drcX, drcY, drcZ, upX, upY, upZ, near, far, zoom;
+    private float[] position, direction, up;
+    @MetaText(editable = true, filter = MetaText.Filter.FLOAT)
+    private float near, far, zoom;
 
-    public float getPosX() {
-        return posX;
+    public float[] getPosition() {
+        return position;
     }
 
-    public void setPosX(float posX) {
-        this.posX = posX;
+    public void setPosition(float[] position) {
+        this.position = position;
     }
 
-    public float getPosY() {
-        return posY;
+    public float[] getDirection() {
+        return direction;
     }
 
-    public void setPosY(float posY) {
-        this.posY = posY;
+    public void setDirection(float[] direction) {
+        this.direction = direction;
     }
 
-    public float getPosZ() {
-        return posZ;
+    public float[] getUp() {
+        return up;
     }
 
-    public void setPosZ(float posZ) {
-        this.posZ = posZ;
-    }
-
-    public float getDrcX() {
-        return drcX;
-    }
-
-    public void setDrcX(float drcX) {
-        this.drcX = drcX;
-    }
-
-    public float getDrcY() {
-        return drcY;
-    }
-
-    public void setDrcY(float drcY) {
-        this.drcY = drcY;
-    }
-
-    public float getDrcZ() {
-        return drcZ;
-    }
-
-    public void setDrcZ(float drcZ) {
-        this.drcZ = drcZ;
-    }
-
-    public float getUpX() {
-        return upX;
-    }
-
-    public void setUpX(float upX) {
-        this.upX = upX;
-    }
-
-    public float getUpY() {
-        return upY;
-    }
-
-    public void setUpY(float upY) {
-        this.upY = upY;
-    }
-
-    public float getUpZ() {
-        return upZ;
-    }
-
-    public void setUpZ(float upZ) {
-        this.upZ = upZ;
+    public void setUp(float[] up) {
+        this.up = up;
     }
 
     public float getNear() {

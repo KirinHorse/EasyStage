@@ -43,7 +43,7 @@ public class MainStage extends Stage {
 
         skin = new Skin(Gdx.files.internal("skin/skin.json"));
         font = new NativeFont();
-        font.setSize(15);
+        font.setSize(14);
         TextField.TextFieldStyle style = skin.get(TextField.TextFieldStyle.class);
         style.font = font;
         Label.LabelStyle labStyle = skin.get(Label.LabelStyle.class);
