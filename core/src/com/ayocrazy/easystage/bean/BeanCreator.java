@@ -1,25 +1,27 @@
 package com.ayocrazy.easystage.bean;
 
+import com.ayocrazy.easystage.uimeta.MetaText;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import net.sf.cglib.beans.BeanGenerator;
+
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
 /**
  * Created by ayo on 2017/1/11.
  */
 
-public class BeanGenerator {
-    public static final StageBean genStage(Stage stage) {
-        return genStage(stage, new StageBean());
-    }
-
-    public static final StageBean genStage(Stage stage, StageBean bean) {
+public class BeanCreator {
+    public static final StageBean refreshStage(Stage stage, StageBean bean, UserBean user) {
+        if (bean == null) bean = new StageBean();
         bean.setName(getName(stage));
         bean.setId(getId(stage));
         bean.setRoot(getName(stage.getRoot()) + "@" + getId(stage.getRoot()));
@@ -28,6 +30,26 @@ public class BeanGenerator {
         bean.setCamera(genCamera(stage.getCamera()));
         bean.setViewport(genViewport(stage.getViewport()));
         return bean;
+    }
+
+    public static final UserBean refreshUserBean() {
+
+    }
+
+    public static final UserBean genUserBean(Stage stage) {
+        UserBean bean = new UserBean();
+        Class claz = stage.getClass();
+        Field fields[] = claz.getDeclaredFields();
+        Array<String> names = new Array<>();
+        Array<String> metas = new Array<>();
+        for (Field field : fields) {
+            for (Annotation anno : field.getAnnotations()) {
+                if (anno.getClass() == MetaText.class) {
+                    MetaText meta = (MetaText) anno;
+                    names.add(field.getName());
+                }
+            }
+        }
     }
 
     public static final ViewportBean genViewport(Viewport vp) {

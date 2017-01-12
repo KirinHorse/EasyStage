@@ -1,7 +1,7 @@
 package com.ayocrazy.easystage.server;
 
 import com.ayocrazy.easystage.bean.ActorBean;
-import com.ayocrazy.easystage.bean.BeanGenerator;
+import com.ayocrazy.easystage.bean.BeanCreator;
 import com.ayocrazy.easystage.bean.StageBean;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
@@ -20,12 +20,12 @@ public class StageIRemote extends UnicastRemoteObject implements IRemote {
 
     public StageIRemote(Stage stage) throws RemoteException {
         this.stage = stage;
-        stageBean = BeanGenerator.genStage(stage);
+        stageBean = BeanCreator.refreshStage(stage);
     }
 
     @Override
     public StageBean getStage() throws RemoteException {
-        BeanGenerator.genStage(stage, stageBean);
+        BeanCreator.refreshStage(stage, stageBean);
         return stageBean;
     }
 

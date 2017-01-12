@@ -62,6 +62,7 @@ public class EasyLog extends Window {
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
+                if (instance.sp.isScrollY() || instance.sp.isForceScrollX()) return;
                 instance.sp.setScrollPercentY(1f);
             }
         });

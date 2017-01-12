@@ -223,7 +223,6 @@ public class UICreator extends Table {
             for (int i = 0; i < meta.arraySize(); i++) {
                 TextField tf = (TextField) widgets.get(field.getName() + "@" + i);
                 tf.setText(java.lang.reflect.Array.get(value, i).toString());
-                EasyLog.log(EasyLog.Tag.info, tf.getText());
             }
         }
     }

@@ -1,8 +1,6 @@
 package com.ayocrazy.easystage.view;
 
-import com.ayocrazy.easystage.bean.BeanGenerator;
 import com.ayocrazy.easystage.server.Client;
-import com.ayocrazy.easystage.server.IRemote;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -16,8 +14,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import net.mwplay.nativefont.NativeFont;
 import net.mwplay.nativefont.NativeFontPaint;
-
-import java.rmi.Naming;
 
 /**
  * Created by ayo on 2017/1/10.

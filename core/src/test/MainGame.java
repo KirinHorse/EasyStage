@@ -13,9 +13,6 @@ public class MainGame extends ApplicationAdapter {
     @Override
     public void create() {
         stage = (TestStage) Easy.newStage(TestStage.class);
-        Image img = new Image(new Texture("game/badlogic.jpg"));
-        stage.addActor(img);
-        stage.setName("AyoCrazy");
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -25,6 +22,11 @@ public class MainGame extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height);
     }
 
     @Override

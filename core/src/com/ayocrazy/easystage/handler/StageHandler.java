@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import net.sf.cglib.beans.BeanGenerator;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
@@ -49,6 +50,7 @@ public class StageHandler implements MethodInterceptor {
         } else {
             server.setStage(stage);
         }
+        BeanGenerator gen = new BeanGenerator();
     }
 
     @Override
