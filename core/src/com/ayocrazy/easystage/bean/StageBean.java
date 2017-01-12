@@ -11,6 +11,7 @@ import java.io.Serializable;
  */
 
 public class StageBean implements Serializable {
+
     @MetaText
     private String name, id, root;
     @MetaText

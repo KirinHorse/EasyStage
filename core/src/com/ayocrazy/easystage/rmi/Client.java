@@ -1,6 +1,7 @@
 package com.ayocrazy.easystage.rmi;
 
 import com.ayocrazy.easystage.bean.StageBean;
+import com.ayocrazy.easystage.bean.UserBean;
 import com.ayocrazy.easystage.view.EasyLog;
 import com.ayocrazy.easystage.view.StageWindow;
 import com.badlogic.gdx.Gdx;
@@ -18,16 +19,24 @@ public class Client {
     private long queryInterval = 100;
     private Timer timer;
     private IRemote remote;
-    private StageBean bean;
+    private StageBean stageBean;
+    private UserBean stageUser;
     private StageWindow stageWindow;
+    private boolean userRequest;
 
     public Client(StageWindow stageWindow) {
         this.stageWindow = stageWindow;
+        stageUser = new UserBean();
         timer = new Timer();
-        start();
+        start(0);
     }
 
-    public void start() {
+    public void stop() {
+        timer.cancel();
+        log(EasyLog.Tag.warn, "Interupt to server. ");
+    }
+
+    public void start(long delay) {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -35,13 +44,14 @@ public class Client {
                     log(EasyLog.Tag.info, "Trying to connect Server, please wait.");
                     remote = (IRemote) Naming.lookup(Server.url);
                     log(EasyLog.Tag.info, "Server connected.");
+                    userRequest = true;
                     loop();
                 } catch (Exception e) {
                     log(EasyLog.Tag.warn, "connect to rmi failed, retry after " + retryInterval + " seconds");
-                    timer.schedule(this, retryInterval);
+                    start(retryInterval);
                 }
             }
-        }, 0);
+        }, delay);
     }
 
     public void loop() {
@@ -49,19 +59,28 @@ public class Client {
             @Override
             public void run() {
                 try {
-                    bean = remote.getStage();
+                    stageBean = remote.getStage();
+                    if (userRequest) {
+                        if (stageUser.getId() == 0)
+                            stageUser.setId(Integer.parseInt(stageBean.getId(), 16));
+                        stageUser = remote.getUser(stageUser.getId());
+                        if (stageUser.getFieldNames() == null || stageUser.getFieldNames().length < 1)
+                            userRequest = false;
+                    }
                     Gdx.app.postRunnable(new Runnable() {
                         @Override
                         public void run() {
-                            stageWindow.setStageBean(bean);
+                            if (userRequest)
+                                stageWindow.setUserBean(stageUser);
+                            stageWindow.setStageBean(stageBean);
                         }
                     });
                 } catch (Exception e) {
-                    log(EasyLog.Tag.warn, "connect to rmi failed");
-                    start();
+                    log(EasyLog.Tag.warn, "connect to rmi failed: " + e);
+                    start(1000);
                 }
             }
-        }, 500, queryInterval);
+        }, 0, queryInterval);
     }
 
     private void log(final EasyLog.Tag tag, final String msg) {
@@ -74,6 +93,6 @@ public class Client {
     }
 
     public StageBean getStage() {
-        return bean;
+        return stageBean;
     }
 }

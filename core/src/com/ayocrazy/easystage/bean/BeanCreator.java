@@ -1,5 +1,6 @@
 package com.ayocrazy.easystage.bean;
 
+import com.ayocrazy.easystage.uimeta.MetaConvertor;
 import com.ayocrazy.easystage.uimeta.MetaText;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.sun.xml.internal.bind.v2.model.core.ID;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -30,25 +32,45 @@ public class BeanCreator {
         return bean;
     }
 
-    public static final UserBean refreshUserBean(Stage stage, UserBean bean) {
+    public static final UserBean refreshUserBean(Object obj, UserBean bean) {
+        if (bean == null) {
+            bean = genUserBean(obj);
+        }
+        String[] names = bean.getFieldNames();
+        Class claz = obj.getClass().getSuperclass();
+        for (int i = 0; i < names.length; i++) {
+            bean.getValues()[i] = reflectValue(claz, names[i], obj);
+//            System.out.println(bean.getFieldNames()[i] + " : " + bean.getValues()[i]);
+        }
         return bean;
     }
 
 
-    public static final UserBean genUserBean(Stage stage) {
+    public static final UserBean genUserBean(Object obj) {
         UserBean bean = new UserBean();
-        Class claz = stage.getClass();
+        bean.setId(obj.hashCode());
+        Class claz = obj.getClass().getSuperclass();
+//        Class claz = obj.getClass();
+        System.out.println(claz.getSimpleName());
         Field fields[] = claz.getDeclaredFields();
         Array<String> names = new Array();
         Array<String> metas = new Array();
         for (Field field : fields) {
+            System.out.println(field.getName());
             for (Annotation anno : field.getAnnotations()) {
-                if (anno.getClass() == MetaText.class) {
-                    MetaText meta = (MetaText) anno;
+                if (anno instanceof MetaText) {
                     names.add(field.getName());
+                    metas.add(MetaConvertor.getString(anno));
+                } else {
+                    continue;
                 }
+                break;
             }
         }
+        if (names == null || names.size < 1) return bean;
+        bean.setFieldNames((String[]) names.toArray(String.class));
+        bean.setMetas((String[]) metas.toArray(String.class));
+        bean.setValues(new Object[names.size]);
         return bean;
     }
 

@@ -1,6 +1,7 @@
 package com.ayocrazy.easystage.view;
 
 import com.ayocrazy.easystage.bean.StageBean;
+import com.ayocrazy.easystage.bean.UserBean;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 
 public class StageWindow extends Window {
     private StageBean stageBean;
+    private UserBean userBean;
     private ScrollPane sp;
     private UICreator creator;
 
@@ -31,11 +33,20 @@ public class StageWindow extends Window {
 
     public void setStageBean(StageBean bean) {
         if (stageBean == null || !stageBean.getId().equals(bean.getId())) {
-            creator.clear();
-            creator.getCells().clear();
-            creator.create(StageBean.class);
+            getTitleLabel().setText(bean.getName());
         }
         this.stageBean = bean;
         creator.setBean(bean);
+    }
+
+    public void setUserBean(UserBean bean) {
+        if (userBean == null || userBean.getId() != bean.getId()) {
+            creator.clear();
+            creator.getCells().clear();
+            creator.createUserUI(bean);
+            creator.create(StageBean.class);
+        }
+        userBean = bean;
+        creator.setUserBean(bean);
     }
 }

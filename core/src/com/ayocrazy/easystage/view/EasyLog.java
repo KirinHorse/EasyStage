@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.utils.Align;
 
 import net.mwplay.nativefont.NativeLabel;
 
@@ -62,7 +63,6 @@ public class EasyLog extends Window {
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
-                if (instance.sp.isScrollY() || instance.sp.isForceScrollX()) return;
                 instance.sp.setScrollPercentY(1f);
             }
         });

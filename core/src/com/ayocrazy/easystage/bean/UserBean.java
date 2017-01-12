@@ -7,9 +7,18 @@ import java.io.Serializable;
  */
 
 public class UserBean implements Serializable {
+    private int id;
     private String[] fieldNames;
     private String[] metas;
     private Object[] values;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String[] getFieldNames() {
         return fieldNames;
