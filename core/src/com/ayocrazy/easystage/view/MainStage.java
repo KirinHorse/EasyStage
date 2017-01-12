@@ -1,6 +1,6 @@
 package com.ayocrazy.easystage.view;
 
-import com.ayocrazy.easystage.server.Client;
+import com.ayocrazy.easystage.rmi.Client;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;

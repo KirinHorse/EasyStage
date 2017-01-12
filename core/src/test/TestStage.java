@@ -14,20 +14,21 @@ import com.badlogic.gdx.utils.Align;
 
 public class TestStage extends Stage {
     @MetaText(editable = true, filter = MetaText.Filter.FLOAT)
-    private float speed = 500f;
+    private float speed = 100f;
     private Image img;
     @MetaText
     private int dirction = 1;
 
     public TestStage() {
         img = new Image(new Texture("game/badlogic.jpg"));
-        img.setPosition(getWidth() * 0.5f, getHeight() * 0.5f);
+        img.setPosition(getWidth() * 0.5f, getHeight() * 0.5f, Align.center);
         addActor(img);
     }
 
     @Override
     public void act(float delta) {
-        super.act();
+        super.act(delta);
+        update(delta);
     }
 
     private void update(float delta) {

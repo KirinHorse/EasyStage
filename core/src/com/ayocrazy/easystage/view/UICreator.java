@@ -5,7 +5,6 @@ import com.ayocrazy.easystage.uimeta.MetaSelectBox;
 import com.ayocrazy.easystage.uimeta.MetaSlider;
 import com.ayocrazy.easystage.uimeta.MetaTable;
 import com.ayocrazy.easystage.uimeta.MetaText;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
@@ -15,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
 import net.mwplay.nativefont.NativeFont;
@@ -25,9 +23,7 @@ import net.mwplay.nativefont.NativeTextField;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by ayo on 2017/1/11.
@@ -35,7 +31,7 @@ import java.util.List;
 
 public class UICreator extends Table {
     private static TextField.TextFieldFilter floatFilter, intFilter;
-    private HashMap<String, Actor> widgets = new HashMap<>();
+    private HashMap<String, Actor> widgets = new HashMap();
     private Class<? extends Serializable> claz;
 
     public UICreator(Skin skin) {
@@ -211,9 +207,9 @@ public class UICreator extends Table {
         if (widget instanceof TextField) {
             ((TextField) widget).setText(value.toString());
         } else if (widget instanceof Slider) {
-            ((Slider) widget).setValue((float) value);
+            ((Slider) widget).setValue((Float) value);
         } else if (widget instanceof CheckBox) {
-            ((CheckBox) widget).setChecked((boolean) value);
+            ((CheckBox) widget).setChecked((Boolean) value);
         } else if (widget instanceof SelectBox) {
             ((SelectBox) widget).setSelected(value);
         } else if (widget instanceof UICreator) {

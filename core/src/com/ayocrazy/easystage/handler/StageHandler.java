@@ -1,7 +1,6 @@
 package com.ayocrazy.easystage.handler;
 
-import com.ayocrazy.easystage.server.Server;
-import com.ayocrazy.easystage.server.StageIRemote;
+import com.ayocrazy.easystage.rmi.Server;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,12 +10,7 @@ import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Method;
-import java.rmi.Naming;
-import java.rmi.registry.LocateRegistry;
 
 /**
  * Created by ayo on 2017/1/10.

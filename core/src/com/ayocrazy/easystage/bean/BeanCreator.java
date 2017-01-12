@@ -10,8 +10,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import net.sf.cglib.beans.BeanGenerator;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
@@ -20,7 +18,7 @@ import java.lang.reflect.Field;
  */
 
 public class BeanCreator {
-    public static final StageBean refreshStage(Stage stage, StageBean bean, UserBean user) {
+    public static final StageBean refreshStage(Stage stage, StageBean bean) {
         if (bean == null) bean = new StageBean();
         bean.setName(getName(stage));
         bean.setId(getId(stage));
@@ -32,16 +30,17 @@ public class BeanCreator {
         return bean;
     }
 
-    public static final UserBean refreshUserBean() {
-
+    public static final UserBean refreshUserBean(Stage stage, UserBean bean) {
+        return bean;
     }
+
 
     public static final UserBean genUserBean(Stage stage) {
         UserBean bean = new UserBean();
         Class claz = stage.getClass();
         Field fields[] = claz.getDeclaredFields();
-        Array<String> names = new Array<>();
-        Array<String> metas = new Array<>();
+        Array<String> names = new Array();
+        Array<String> metas = new Array();
         for (Field field : fields) {
             for (Annotation anno : field.getAnnotations()) {
                 if (anno.getClass() == MetaText.class) {
@@ -50,6 +49,7 @@ public class BeanCreator {
                 }
             }
         }
+        return bean;
     }
 
     public static final ViewportBean genViewport(Viewport vp) {

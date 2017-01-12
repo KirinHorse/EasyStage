@@ -1,4 +1,4 @@
-package com.ayocrazy.easystage.server;
+package com.ayocrazy.easystage.rmi;
 
 import com.ayocrazy.easystage.bean.StageBean;
 import com.ayocrazy.easystage.view.EasyLog;
@@ -37,7 +37,7 @@ public class Client {
                     log(EasyLog.Tag.info, "Server connected.");
                     loop();
                 } catch (Exception e) {
-                    log(EasyLog.Tag.warn, "connect to server failed, retry after " + retryInterval + " seconds");
+                    log(EasyLog.Tag.warn, "connect to rmi failed, retry after " + retryInterval + " seconds");
                     timer.schedule(this, retryInterval);
                 }
             }
@@ -57,14 +57,14 @@ public class Client {
                         }
                     });
                 } catch (Exception e) {
-                    log(EasyLog.Tag.warn, "connect to server failed");
+                    log(EasyLog.Tag.warn, "connect to rmi failed");
                     start();
                 }
             }
         }, 500, queryInterval);
     }
 
-    private void log(EasyLog.Tag tag, String msg) {
+    private void log(final EasyLog.Tag tag, final String msg) {
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {

@@ -1,4 +1,4 @@
-package com.ayocrazy.easystage.server;
+package com.ayocrazy.easystage.rmi;
 
 import com.ayocrazy.easystage.bean.ActorBean;
 import com.ayocrazy.easystage.bean.StageBean;

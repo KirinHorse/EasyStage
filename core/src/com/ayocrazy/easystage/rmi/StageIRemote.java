@@ -1,4 +1,4 @@
-package com.ayocrazy.easystage.server;
+package com.ayocrazy.easystage.rmi;
 
 import com.ayocrazy.easystage.bean.ActorBean;
 import com.ayocrazy.easystage.bean.BeanCreator;
@@ -20,7 +20,7 @@ public class StageIRemote extends UnicastRemoteObject implements IRemote {
 
     public StageIRemote(Stage stage) throws RemoteException {
         this.stage = stage;
-        stageBean = BeanCreator.refreshStage(stage);
+        stageBean = BeanCreator.refreshStage(stage, null);
     }
 
     @Override

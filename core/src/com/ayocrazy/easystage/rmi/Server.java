@@ -1,4 +1,4 @@
-package com.ayocrazy.easystage.server;
+package com.ayocrazy.easystage.rmi;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
@@ -44,7 +44,7 @@ public class Server implements Runnable {
         try {
             String[] cmds = {"java", "-Dfile.encoding=UTF-8", "-classpath",
                     System.getProperty("java.class.path"),
-                    "com.ayocrazy.easystage.desktop.WindowLauncher"
+                    "com.ayocrazy.easystage.view.WindowLauncher"
             };
             LocateRegistry.createRegistry(port);
             try {
