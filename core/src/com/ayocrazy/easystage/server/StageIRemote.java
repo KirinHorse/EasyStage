@@ -25,10 +25,11 @@ public class StageIRemote extends UnicastRemoteObject implements IRemote {
 
     @Override
     public StageBean getStage() throws RemoteException {
+        BeanGenerator.genStage(stage, stageBean);
         return stageBean;
     }
 
-    public void setStage(Stage stage) throws RemoteException {
+    public void setStage(Stage stage) {
         this.stage = stage;
     }
 

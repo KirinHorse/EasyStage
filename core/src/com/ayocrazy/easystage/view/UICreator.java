@@ -5,6 +5,8 @@ import com.ayocrazy.easystage.uimeta.MetaSelectBox;
 import com.ayocrazy.easystage.uimeta.MetaSlider;
 import com.ayocrazy.easystage.uimeta.MetaTable;
 import com.ayocrazy.easystage.uimeta.MetaText;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -24,6 +26,7 @@ import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -32,7 +35,8 @@ import java.util.List;
 
 public class UICreator extends Table {
     private static TextField.TextFieldFilter floatFilter, intFilter;
-    private static final int lineHeight = 30;
+    private HashMap<String, Actor> widgets = new HashMap<>();
+    private Class<? extends Serializable> claz;
 
     public UICreator(Skin skin) {
         super(skin);
@@ -40,91 +44,85 @@ public class UICreator extends Table {
 //        setDebug(true);
     }
 
-    public void create(Serializable bean) {
-        Class claz = bean.getClass();
-        try {
-            Field[] fields = claz.getDeclaredFields();
-            for (Field f : fields) {
+    public void create(Class<? extends Serializable> claz) {
+        this.claz = claz;
+        Field[] fields = claz.getDeclaredFields();
+        for (Field f : fields) {
+            try {
                 f.setAccessible(true);
-                Object obj = f.get(bean);
-                if (obj == null) obj = "";
                 Annotation[] annotations = f.getDeclaredAnnotations();
                 for (Annotation anno : annotations) {
                     if (anno instanceof MetaText) {
                         if (f.getType().isArray()) {
-                            if (obj == null) obj = new float[2];
-                            vector(f, obj);
+                            vector(f);
                         } else {
-                            text(f, obj.toString());
+                            text(f);
                         }
                     } else if (anno instanceof MetaSlider) {
-                        slider(f, (Float) obj);
+                        slider(f);
                     } else if (anno instanceof MetaSelectBox) {
-                        selectBox(f, obj.toString());
+                        selectBox(f);
                     } else if (anno instanceof MetaCheckBox) {
-                        checkBox(f, (Boolean) obj);
+                        checkBox(f);
                     } else if (anno instanceof MetaTable) {
-                        table(f, (Serializable) obj);
+                        table(f);
                     } else {
                         continue;
                     }
                     break;
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+                EasyLog.log(EasyLog.Tag.error, e.toString());
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            MainStage.get().log.log(e.getMessage(), e.getLocalizedMessage());
         }
+        System.out.println(widgets.size());
         setSize(getPrefWidth(), getPrefHeight());
     }
 
-    private void text(Field field, String value) {
+    private void text(Field field) {
         addName(field.getName());
         MetaText meta = field.getAnnotation(MetaText.class);
-        NativeTextField tf = new NativeTextField(value, getSkin().get(TextField.TextFieldStyle.class));
+        NativeTextField tf = new NativeTextField("", getSkin().get(TextField.TextFieldStyle.class));
         tf.setDisabled(!meta.editable());
         tf.setTextFieldFilter(getFilter(meta.filter()));
         tf.setMaxLength(meta.maxLength());
         tf.setProgrammaticChangeEvents(false);
+        widgets.put(field.getName(), tf);
         add(tf).left().pad(2, 0, 2, 0).row();
     }
 
-    private void vector(Field field, Object valueArray) {
-        List list = new ArrayList();
-        int index = 0;
-        while (true) {
-            try {
-                list.add(java.lang.reflect.Array.get(valueArray, index++));
-            } catch (ArrayIndexOutOfBoundsException e) {
-                break;
-            }
-        }
+    private void vector(Field field) {
         addName(field.getName());
         MetaText meta = field.getAnnotation(MetaText.class);
         Table table = new Table(getSkin());
+        int size = meta.arraySize();
         char[] prefix = meta.prefix();
-        boolean useNum = prefix.length < list.size();
-        for (int i = 0; i < list.size(); i++) {
+        boolean useNum = prefix.length < size;
+        for (int i = 0; i < size; i++) {
             NativeLabel lab = new NativeLabel(useNum ? (i + 1 + "") : (prefix[i] + ""),
                     getSkin().get(Label.LabelStyle.class));
             table.add(lab);
-            NativeTextField tf = new NativeTextField(list.get(i) + "", getSkin().get(TextField.TextFieldStyle.class));
+            NativeTextField tf = new NativeTextField("", getSkin().get(TextField.TextFieldStyle.class));
             tf.setTextFieldFilter(getFilter(meta.filter()));
             tf.setProgrammaticChangeEvents(false);
             tf.setMaxLength(meta.maxLength());
+            widgets.put(field.getName() + "@" + i, tf);
             table.add(tf).width(80).padRight(5);
         }
+        widgets.put(field.getName(), table);
         add(table).pad(2, 0, 2, 0).left().row();
     }
 
-    private void slider(Field field, float value) {
+    private void slider(Field field) {
         addName(field.getName());
         MetaSlider meta = field.getAnnotation(MetaSlider.class);
         Slider slider = new Slider(meta.minValue(), meta.maxValue(), meta.step(), false, getSkin());
+        widgets.put(field.getName(), slider);
         add(slider).pad(2, 0, 2, 0).left().row();
     }
 
-    private void selectBox(Field field, String value) {
+    private void selectBox(Field field) {
         addName(field.getName());
         SelectBox<String> sb = new SelectBox<String>(getSkin());
         MetaSelectBox meta = field.getAnnotation(MetaSelectBox.class);
@@ -143,23 +141,24 @@ public class UICreator extends Table {
             }
         }
         sb.setItems(items);
-        sb.setSelected(value);
+        widgets.put(field.getName(), sb);
         add(sb).pad(2, 0, 2, 0).left().row();
     }
 
-    private void checkBox(Field field, boolean value) {
+    private void checkBox(Field field) {
         CheckBox cb = new CheckBox("", getSkin());
         ((NativeFont) cb.getStyle().font).appendText(field.getName());
         cb.setText(field.getName());
-        cb.setChecked(value);
+        widgets.put(field.getName(), cb);
         add(cb).pad(2, 0, 2, 0).left().colspan(2).row();
     }
 
-    private void table(Field field, Serializable value) {
+    private void table(Field field) {
         addName(field.getName()).center();
-        UICreator table = new UICreator(getSkin());
-        table.create(value);
-        add(table).pad(2, 0, 2, 0).left().row();
+        UICreator creator = new UICreator(getSkin());
+        creator.create((Class<? extends Serializable>) field.getType());
+        widgets.put(field.getName(), creator);
+        add(creator).pad(2, 0, 2, 0).left().row();
     }
 
 
@@ -180,7 +179,6 @@ public class UICreator extends Table {
                     floatFilter = new TextField.TextFieldFilter() {
                         @Override
                         public boolean acceptChar(TextField textField, char c) {
-                            System.out.println(c + "");
                             if (Character.isDigit(c)) return true;
                             if (c == '.' || c == '-') return true;
                             return false;
@@ -190,6 +188,43 @@ public class UICreator extends Table {
                 return floatFilter;
             default:
                 return null;
+        }
+    }
+
+    public void setBean(Serializable bean) {
+        if (bean.getClass() != claz) return;
+        Field fields[] = claz.getDeclaredFields();
+        for (Field f : fields) {
+            try {
+                f.setAccessible(true);
+                setValue(f, f.get(bean));
+            } catch (Exception e) {
+                e.printStackTrace();
+                EasyLog.log(EasyLog.Tag.warn, "did not find the widget for " + f.getName());
+            }
+        }
+    }
+
+    private void setValue(Field field, Object value) {
+        Actor widget = widgets.get(field.getName());
+        if (widget == null) return;
+        if (widget instanceof TextField) {
+            ((TextField) widget).setText(value.toString());
+        } else if (widget instanceof Slider) {
+            ((Slider) widget).setValue((float) value);
+        } else if (widget instanceof CheckBox) {
+            ((CheckBox) widget).setChecked((boolean) value);
+        } else if (widget instanceof SelectBox) {
+            ((SelectBox) widget).setSelected(value);
+        } else if (widget instanceof UICreator) {
+            ((UICreator) widget).setBean((Serializable) value);
+        } else if (widget instanceof Table) {
+            MetaText meta = field.getAnnotation(MetaText.class);
+            for (int i = 0; i < meta.arraySize(); i++) {
+                TextField tf = (TextField) widgets.get(field.getName() + "@" + i);
+                tf.setText(java.lang.reflect.Array.get(value, i).toString());
+                EasyLog.log(EasyLog.Tag.info, tf.getText());
+            }
         }
     }
 }

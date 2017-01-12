@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 
 public class CameraBean implements Serializable {
-    @MetaText(editable = true, filter = MetaText.Filter.FLOAT)
+    @MetaText(editable = true, filter = MetaText.Filter.FLOAT, arraySize = 3)
     private float[] position, direction, up;
     @MetaText(editable = true, filter = MetaText.Filter.FLOAT)
     private float near, far, zoom;

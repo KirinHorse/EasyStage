@@ -16,7 +16,10 @@ import java.lang.reflect.Field;
 
 public class BeanGenerator {
     public static final StageBean genStage(Stage stage) {
-        StageBean bean = new StageBean();
+        return genStage(stage, new StageBean());
+    }
+
+    public static final StageBean genStage(Stage stage, StageBean bean) {
         bean.setName(getName(stage));
         bean.setId(getId(stage));
         bean.setRoot(getName(stage.getRoot()) + "@" + getId(stage.getRoot()));

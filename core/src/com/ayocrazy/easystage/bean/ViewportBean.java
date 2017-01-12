@@ -14,9 +14,9 @@ public class ViewportBean implements Serializable {
     private String type;
     @MetaSelectBox(items = {"fit", "fill", "fillX", "fillY", "stretch", "stretchX", "stretchY", "none"})
     private String scalling;
-    @MetaText(editable = true, filter = MetaText.Filter.INT)
+    @MetaText(editable = true, filter = MetaText.Filter.FLOAT, arraySize = 2)
     private float[] worldSize;
-    @MetaText(editable = true, filter = MetaText.Filter.INT)
+    @MetaText(editable = true, filter = MetaText.Filter.INT, arraySize = 2)
     private int[] screenPos, screenSize;
 
     public String getType() {

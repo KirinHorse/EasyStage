@@ -1,5 +1,6 @@
 package com.ayocrazy.easystage.handler;
 
+import com.ayocrazy.easystage.server.Server;
 import com.ayocrazy.easystage.server.StageIRemote;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -21,7 +22,7 @@ import java.rmi.registry.LocateRegistry;
  */
 
 public class StageHandler implements MethodInterceptor {
-    private static Process process;
+    private static Server server;
     private Stage stage;
     private Enhancer enhancer = new Enhancer();
     private long actTime, drawTime;
@@ -41,10 +42,13 @@ public class StageHandler implements MethodInterceptor {
         return stage;
     }
 
-    boolean flag = true;
 
     void openWindow() {
-
+        if (server == null) {
+            server = new Server(stage);
+        } else {
+            server.setStage(stage);
+        }
     }
 
     @Override
@@ -52,7 +56,7 @@ public class StageHandler implements MethodInterceptor {
 //        long startTime = System.currentTimeMillis();
         if (method.getName().equals("act") && args.length == 0) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.F6)) {
-                System.out.println("F6 pressed ");
+                System.out.println("Serive is starting. ");
                 openWindow();
             }
         }

@@ -21,5 +21,7 @@ public @interface MetaText {
 
     int maxLength() default 8;
 
+    int arraySize() default 2;
+
     char[] prefix() default {'x', 'y', 'z', 'w', 'p', 'q', 'r', 'j', 'k', 'm', 'n'};
 }

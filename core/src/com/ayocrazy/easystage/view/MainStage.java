@@ -1,6 +1,8 @@
 package com.ayocrazy.easystage.view;
 
 import com.ayocrazy.easystage.bean.BeanGenerator;
+import com.ayocrazy.easystage.server.Client;
+import com.ayocrazy.easystage.server.IRemote;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,6 +17,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import net.mwplay.nativefont.NativeFont;
 import net.mwplay.nativefont.NativeFontPaint;
 
+import java.rmi.Naming;
+
 /**
  * Created by ayo on 2017/1/10.
  */
@@ -24,7 +28,7 @@ public class MainStage extends Stage {
     private Skin skin;
     NativeFont font;
     ActorTree actorTree;
-    LogWindow log;
+    EasyLog log;
     StageWindow stageWindow;
 
     public static MainStage get() {
@@ -38,20 +42,14 @@ public class MainStage extends Stage {
         initSkin();
         stageWindow = new StageWindow("", skin);
         actorTree = new ActorTree(skin);
-        log = new LogWindow("log", skin);
+        log = new EasyLog("log", skin);
         stageWindow.setSize(getWidth() * 0.4f, getHeight() * 0.6f);
         log.setSize(getWidth(), getHeight() * 0.2f);
         stageWindow.setPosition(getWidth(), getHeight(), Align.topRight);
         addActor(stageWindow);
         addActor(actorTree);
         addActor(log);
-//        try {
-//            IRemote server = (IRemote) Naming.lookup("rmi://localhost:9126/IRemote");
-//            stageWindow.setStageBean(server.getStage());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-        stageWindow.setStageBean(BeanGenerator.genStage(this));
-//        }
+        new Client(stageWindow);
     }
 
     private void initSkin() {

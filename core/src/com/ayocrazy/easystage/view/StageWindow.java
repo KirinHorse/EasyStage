@@ -26,13 +26,16 @@ public class StageWindow extends Window {
         add(sp).pad(3).expand().fill();
         setResizable(true);
         setResizeBorder(10);
+        creator.create(StageBean.class);
     }
 
     public void setStageBean(StageBean bean) {
+        if (stageBean == null || !stageBean.getId().equals(bean.getId())) {
+            creator.clear();
+            creator.getCells().clear();
+            creator.create(StageBean.class);
+        }
         this.stageBean = bean;
-        getTitleLabel().setText(bean.getName());
-        creator.clear();
-        creator.getCells().clear();
-        creator.create(bean);
+        creator.setBean(bean);
     }
 }
