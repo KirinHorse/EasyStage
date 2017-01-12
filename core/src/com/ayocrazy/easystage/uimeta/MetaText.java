@@ -20,4 +20,6 @@ public @interface MetaText {
     Filter filter() default Filter.STRING;
 
     int maxLength() default 8;
+
+    char[] prefix() default {'x', 'y', 'z', 'w', 'p', 'q', 'r', 'j', 'k', 'm', 'n'};
 }

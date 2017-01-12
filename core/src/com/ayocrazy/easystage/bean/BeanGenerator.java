@@ -33,29 +33,19 @@ public class BeanGenerator {
         if (vp instanceof ScalingViewport) {
             bean.setScalling(((ScalingViewport) vp).getScaling().name());
         }
-        bean.setWorldWidth(vp.getWorldWidth());
-        bean.setWorldHeight(vp.getWorldWidth());
-        bean.setScreenX(vp.getScreenX());
-        bean.setScreenY(vp.getScreenY());
-        bean.setScreenWidth(vp.getScreenWidth());
-        bean.setScreenHeight(vp.getScreenHeight());
+        bean.setWorldSize(new float[]{vp.getWorldWidth(), vp.getWorldHeight()});
+        bean.setScreenPos(new int[]{vp.getScreenX(), vp.getScreenY()});
+        bean.setScreenSize(new int[]{vp.getScreenWidth(), vp.getScreenHeight()});
         return bean;
     }
 
     public static final CameraBean genCamera(Camera camera) {
         CameraBean bean = new CameraBean();
-        bean.setDrcX(camera.direction.x);
-        bean.setDrcY(camera.direction.y);
-        bean.setDrcZ(camera.direction.z);
-        bean.setPosX(camera.position.x);
-        bean.setPosY(camera.position.y);
-        bean.setPosZ(camera.position.z);
-        bean.setUpX(camera.up.x);
-        bean.setUpY(camera.up.y);
-        bean.setUpZ(camera.up.z);
+        bean.setPosition(new float[]{camera.position.x, camera.position.y, camera.position.z});
+        bean.setDirection(new float[]{camera.direction.x, camera.direction.y, camera.direction.z});
+        bean.setUp(new float[]{camera.up.x, camera.up.y, camera.up.z});
         bean.setFar(camera.far);
         bean.setNear(camera.near);
-        bean.setZoom(0);
         if (camera instanceof OrthographicCamera) {
             bean.setZoom(((OrthographicCamera) camera).zoom);
         }
