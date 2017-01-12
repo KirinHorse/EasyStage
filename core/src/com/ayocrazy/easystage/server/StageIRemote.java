@@ -13,12 +13,12 @@ import java.util.HashMap;
  * Created by ayo on 2017/1/10.
  */
 
-public class StageServer extends UnicastRemoteObject implements Server {
+public class StageIRemote extends UnicastRemoteObject implements IRemote {
     private Stage stage;
     private StageBean stageBean;
     private HashMap<String, ActorBean> actorBeans = new HashMap<String, ActorBean>();
 
-    public StageServer(Stage stage) throws RemoteException {
+    public StageIRemote(Stage stage) throws RemoteException {
         this.stage = stage;
         stageBean = BeanGenerator.genStage(stage);
     }

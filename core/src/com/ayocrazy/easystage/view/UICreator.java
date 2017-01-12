@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
+import net.mwplay.nativefont.NativeFont;
 import net.mwplay.nativefont.NativeLabel;
 import net.mwplay.nativefont.NativeTextField;
 
@@ -31,7 +32,7 @@ import java.util.List;
 
 public class UICreator extends Table {
     private static TextField.TextFieldFilter floatFilter, intFilter;
-    private static final int lineHeight = 25;
+    private static final int lineHeight = 30;
 
     public UICreator(Skin skin) {
         super(skin);
@@ -85,7 +86,7 @@ public class UICreator extends Table {
         tf.setTextFieldFilter(getFilter(meta.filter()));
         tf.setMaxLength(meta.maxLength());
         tf.setProgrammaticChangeEvents(false);
-        add(tf).height(lineHeight).left().row();
+        add(tf).left().pad(2, 0, 2, 0).row();
     }
 
     private void vector(Field field, Object valueArray) {
@@ -106,21 +107,21 @@ public class UICreator extends Table {
         for (int i = 0; i < list.size(); i++) {
             NativeLabel lab = new NativeLabel(useNum ? (i + 1 + "") : (prefix[i] + ""),
                     getSkin().get(Label.LabelStyle.class));
-            table.add(lab).height(lineHeight);
+            table.add(lab);
             NativeTextField tf = new NativeTextField(list.get(i) + "", getSkin().get(TextField.TextFieldStyle.class));
             tf.setTextFieldFilter(getFilter(meta.filter()));
             tf.setProgrammaticChangeEvents(false);
             tf.setMaxLength(meta.maxLength());
-            table.add(tf).width(80).height(lineHeight).padRight(5);
+            table.add(tf).width(80).padRight(5);
         }
-        add(table).height(lineHeight).left().row();
+        add(table).pad(2, 0, 2, 0).left().row();
     }
 
     private void slider(Field field, float value) {
         addName(field.getName());
         MetaSlider meta = field.getAnnotation(MetaSlider.class);
         Slider slider = new Slider(meta.minValue(), meta.maxValue(), meta.step(), false, getSkin());
-        add(slider).height(lineHeight).left().row();
+        add(slider).pad(2, 0, 2, 0).left().row();
     }
 
     private void selectBox(Field field, String value) {
@@ -130,35 +131,41 @@ public class UICreator extends Table {
         Array<String> items = new Array<String>();
         if (meta.items().length > 0) {
             items.addAll(meta.items());
+            for (String item : meta.items()) {
+                ((NativeFont) sb.getStyle().font).appendText(item);
+            }
         } else if (meta.enumClass().isEnum()) {
             Object[] enums = meta.enumClass().getEnumConstants();
             for (Object obj : enums) {
-                items.add(obj.toString());
+                String item = obj.toString();
+                items.add(item);
+                ((NativeFont) sb.getStyle().font).appendText(item);
             }
         }
         sb.setItems(items);
         sb.setSelected(value);
-        add(sb).height(lineHeight).left().row();
+        add(sb).pad(2, 0, 2, 0).left().row();
     }
 
     private void checkBox(Field field, boolean value) {
-        CheckBox cb = new CheckBox(field.getName(), getSkin());
+        CheckBox cb = new CheckBox("", getSkin());
+        ((NativeFont) cb.getStyle().font).appendText(field.getName());
+        cb.setText(field.getName());
         cb.setChecked(value);
-        add(cb).height(lineHeight).left().colspan(2).row();
+        add(cb).pad(2, 0, 2, 0).left().colspan(2).row();
     }
 
     private void table(Field field, Serializable value) {
-        addName(field.getName()).fillY().expandY().center();
+        addName(field.getName()).center();
         UICreator table = new UICreator(getSkin());
         table.create(value);
-        add(table).left().row();
+        add(table).pad(2, 0, 2, 0).left().row();
     }
 
 
     private Cell addName(String name) {
         NativeLabel lab = new NativeLabel(name, getSkin().get(Label.LabelStyle.class));
-        lab.setAlignment(Align.center, Align.center);
-        return add(lab).right().height(lineHeight).padRight(10);
+        return add(lab).right().padRight(10);
     }
 
     private static TextField.TextFieldFilter getFilter(MetaText.Filter filter) {

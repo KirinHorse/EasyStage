@@ -1,6 +1,6 @@
 package com.ayocrazy.easystage.handler;
 
-import com.ayocrazy.easystage.server.StageServer;
+import com.ayocrazy.easystage.server.StageIRemote;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -44,53 +44,7 @@ public class StageHandler implements MethodInterceptor {
     boolean flag = true;
 
     void openWindow() {
-        if (process != null) return;
-        try {
-            String[] cmds2 = {"java", "-Dfile.encoding=UTF-8", "-classpath",
-                    System.getProperty("java.class.path"),
-                    "com.ayocrazy.easystage.desktop.WindowLauncher"
-            };
-            LocateRegistry.createRegistry(9126);
-            try {
-                Naming.bind("rmi://localhost:9126/Server", new StageServer(stage));
-                System.out.println("Server服务器启动成功");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            process = Runtime.getRuntime().exec(cmds2);
-            Thread t = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    InputStream is = process.getErrorStream();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-                    while (flag) {
-                        try {
-                            String text = reader.readLine();
-                            if (text == null) {
-                                return;
-                            }
-                            System.out.println(text);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            });
-            t.start();
-            Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        flag = false;
-                        process.getOutputStream().write("\n".getBytes());
-                        process.getOutputStream().flush();
-                    } catch (Exception e) {
-                    }
-                }
-            }));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override

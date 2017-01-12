@@ -1,24 +1,19 @@
 package com.ayocrazy.easystage.view;
 
 import com.ayocrazy.easystage.bean.BeanGenerator;
-import com.ayocrazy.easystage.bean.StageBean;
-import com.ayocrazy.easystage.server.Server;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import net.mwplay.nativefont.NativeFont;
-import net.mwplay.nativefont.NativeLabel;
-
-import java.rmi.Naming;
+import net.mwplay.nativefont.NativeFontPaint;
 
 /**
  * Created by ayo on 2017/1/10.
@@ -51,7 +46,7 @@ public class MainStage extends Stage {
         addActor(actorTree);
         addActor(log);
 //        try {
-//            Server server = (Server) Naming.lookup("rmi://localhost:9126/Server");
+//            IRemote server = (IRemote) Naming.lookup("rmi://localhost:9126/IRemote");
 //            stageWindow.setStageBean(server.getStage());
 //        } catch (Exception e) {
 //            e.printStackTrace();
@@ -61,8 +56,9 @@ public class MainStage extends Stage {
 
     private void initSkin() {
         skin = new Skin(Gdx.files.internal("skin/skin.json"));
-        font = new NativeFont();
-        font.setSize(15);
+        font = new NativeFont(new NativeFontPaint(14));
+//        font.setSize(15);
+        skin.add("default", font, BitmapFont.class);
         TextField.TextFieldStyle style = skin.get(TextField.TextFieldStyle.class);
         style.font = font;
         Label.LabelStyle labStyle = skin.get(Label.LabelStyle.class);

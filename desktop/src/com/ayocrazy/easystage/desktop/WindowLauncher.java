@@ -14,8 +14,7 @@ public class WindowLauncher {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = 1280;
         config.height = 800;
+        config.title = "EasyStage v" + System.getProperty("Manifest-Version");
         new LwjglApplication(new EasyGame(), config);
     }
-
-
 }

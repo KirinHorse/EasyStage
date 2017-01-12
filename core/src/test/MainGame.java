@@ -13,7 +13,7 @@ public class MainGame extends ApplicationAdapter {
     @Override
     public void create() {
         stage = (TestStage) Easy.newStage(TestStage.class);
-        Image img = new Image(new Texture("badlogic.jpg"));
+        Image img = new Image(new Texture("game/badlogic.jpg"));
         stage.addActor(img);
         stage.setName("AyoCrazy");
         Gdx.input.setInputProcessor(stage);

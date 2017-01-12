@@ -1,5 +1,6 @@
 package com.ayocrazy.easystage.view;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -21,9 +22,11 @@ public class LogWindow extends Window {
     public LogWindow(String title, Skin skin) {
         super(title, skin);
         vg = new VerticalGroup();
+        vg.pad(0, 20, 20, 20);
         sp = new ScrollPane(vg, skin);
         setResizeBorder(20);
         setResizable(true);
+        add(sp).fill().expand().pad(3);
     }
 
     public void log(String tag, String msg) {
@@ -33,6 +36,12 @@ public class LogWindow extends Window {
         int s = c.get(Calendar.SECOND);
         String time = h + ":" + m + ":" + s + "  ";
         vg.addActor(new NativeLabel(time + tag + ":" + msg, getSkin().get(Label.LabelStyle.class)));
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                sp.setScrollPercentY(1f);
+            }
+        });
     }
 
     @Override
