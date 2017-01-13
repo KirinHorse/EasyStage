@@ -24,7 +24,7 @@ public class BeanCreator {
         bean.setName(getName(stage));
         bean.setId(getId(stage));
         bean.setRoot(getName(stage.getRoot()) + "@" + getId(stage.getRoot()));
-        bean.setChildrenSize(getActorsCount(stage.getRoot()));
+        bean.setChildren(getActorsCount(stage.getRoot()));
         bean.setDebug((Boolean) reflectValue(Stage.class, "debug", stage));
         bean.setCamera(genCamera(stage.getCamera()));
         bean.setViewport(genViewport(stage.getViewport()));
@@ -49,21 +49,16 @@ public class BeanCreator {
         UserBean bean = new UserBean();
         bean.setId(obj.hashCode());
         Class claz = obj.getClass().getSuperclass();
-//        Class claz = obj.getClass();
-        System.out.println(claz.getSimpleName());
         Field fields[] = claz.getDeclaredFields();
         Array<String> names = new Array();
         Array<String> metas = new Array();
         for (Field field : fields) {
-            System.out.println(field.getName());
             for (Annotation anno : field.getAnnotations()) {
-                if (anno instanceof MetaText) {
+                if (anno.annotationType().getSimpleName().startsWith("Meta")) {
                     names.add(field.getName());
                     metas.add(MetaConvertor.getString(anno));
-                } else {
-                    continue;
+                    break;
                 }
-                break;
             }
         }
         if (names == null || names.size < 1) return bean;

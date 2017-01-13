@@ -2,6 +2,7 @@ package com.ayocrazy.easystage.bean;
 
 import com.ayocrazy.easystage.uimeta.MetaSelectBox;
 import com.ayocrazy.easystage.uimeta.MetaText;
+import com.ayocrazy.easystage.uimeta.MetaVector;
 
 import java.io.Serializable;
 
@@ -14,10 +15,12 @@ public class ViewportBean implements Serializable {
     private String type;
     @MetaSelectBox(items = {"fit", "fill", "fillX", "fillY", "stretch", "stretchX", "stretchY", "none"})
     private String scalling;
-    @MetaText(editable = true, filter = MetaText.Filter.FLOAT, arraySize = 2)
+    @MetaVector(editable = true, filter = MetaText.Filter.FLOAT, prefix = {'w', 'h'})
     private float[] worldSize;
-    @MetaText(editable = true, filter = MetaText.Filter.INT, arraySize = 2)
-    private int[] screenPos, screenSize;
+    @MetaVector(editable = true, filter = MetaText.Filter.INT)
+    private int[] screenPos;
+    @MetaVector(prefix = {'w', 'h'}, filter = MetaText.Filter.INT)
+    private int[] screenSize;
 
     public String getType() {
         return type;

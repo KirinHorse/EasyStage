@@ -7,6 +7,7 @@ import com.ayocrazy.easystage.uimeta.MetaSelectBox;
 import com.ayocrazy.easystage.uimeta.MetaSlider;
 import com.ayocrazy.easystage.uimeta.MetaTable;
 import com.ayocrazy.easystage.uimeta.MetaText;
+import com.ayocrazy.easystage.uimeta.MetaVector;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
@@ -26,6 +28,7 @@ import net.mwplay.nativefont.NativeTextField;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.EnumSet;
 import java.util.HashMap;
 
 /**
@@ -53,11 +56,9 @@ public class UICreator extends Table {
                 Annotation[] annotations = f.getDeclaredAnnotations();
                 for (Annotation anno : annotations) {
                     if (anno instanceof MetaText) {
-                        if (f.getType().isArray()) {
-                            vector(f.getName(), (MetaText) anno);
-                        } else {
-                            text(f.getName(), (MetaText) anno);
-                        }
+                        text(f.getName(), (MetaText) anno);
+                    } else if (anno instanceof MetaVector) {
+                        vector(f.getName(), (MetaVector) anno);
                     } else if (anno instanceof MetaSlider) {
                         slider(f.getName(), (MetaSlider) anno);
                     } else if (anno instanceof MetaSelectBox) {
@@ -85,15 +86,16 @@ public class UICreator extends Table {
         tf.setDisabled(!meta.editable());
         tf.setTextFieldFilter(getFilter(meta.filter()));
         tf.setMaxLength(meta.maxLength());
+        tf.setAlignment(Align.center);
         tf.setProgrammaticChangeEvents(false);
         widgets.put(name, tf);
         add(tf).left().pad(2, 0, 2, 0).row();
     }
 
-    private void vector(String name, MetaText meta) {
+    private void vector(String name, MetaVector meta) {
         addName(name);
         Table table = new Table(getSkin());
-        int size = meta.arraySize();
+        int size = meta.size();
         char[] prefix = meta.prefix();
         boolean useNum = prefix.length < size;
         for (int i = 0; i < size; i++) {
@@ -104,6 +106,7 @@ public class UICreator extends Table {
             tf.setTextFieldFilter(getFilter(meta.filter()));
             tf.setProgrammaticChangeEvents(false);
             tf.setMaxLength(meta.maxLength());
+            tf.setAlignment(Align.center);
             widgets.put(name + "@" + i, tf);
             table.add(tf).width(80).padRight(5);
         }
@@ -113,9 +116,21 @@ public class UICreator extends Table {
 
     private void slider(String name, MetaSlider meta) {
         addName(name);
+        NativeLabel label = new NativeLabel("", getSkin().get(Label.LabelStyle.class));
         Slider slider = new Slider(meta.minValue(), meta.maxValue(), meta.step(), false, getSkin());
+        slider.setUserObject(label);
+        slider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                NativeLabel lab = (NativeLabel) actor.getUserObject();
+                lab.setText(((Slider) actor).getValue() + "");
+            }
+        });
         widgets.put(name, slider);
-        add(slider).pad(2, 0, 2, 0).left().row();
+        Table tab = new Table(getSkin());
+        tab.add(slider).expand();
+        tab.add(label).pad(0, 5, 0, 2);
+        add(tab).pad(2, 0, 2, 0).left().row();
     }
 
     private void selectBox(String name, MetaSelectBox meta) {
@@ -123,8 +138,8 @@ public class UICreator extends Table {
         SelectBox<String> sb = new SelectBox<String>(getSkin());
         Array<String> items = new Array<String>();
         if (meta.items().length > 0) {
-            items.addAll(meta.items());
             for (String item : meta.items()) {
+                items.add(item);
                 ((NativeFont) sb.getStyle().font).appendText(item);
             }
         } else if (meta.enumClass().isEnum()) {
@@ -144,6 +159,7 @@ public class UICreator extends Table {
         CheckBox cb = new CheckBox("", getSkin());
         ((NativeFont) cb.getStyle().font).appendText(name);
         cb.setText(name);
+        cb.getCells().get(0).padRight(3);
         widgets.put(name, cb);
         add(cb).pad(2, 0, 2, 0).left().colspan(2).row();
     }
@@ -234,14 +250,11 @@ public class UICreator extends Table {
         addName("user").center();
         userCreator = new UICreator(getSkin());
         for (int i = 0; i < names.length; i++) {
-            System.err.println(metas[i]);
             Annotation anno = MetaConvertor.getMeta(metas[i]);
             if (anno instanceof MetaText) {
-                if (values[i].getClass().isArray()) {
-                    userCreator.vector(names[i], (MetaText) anno);
-                } else {
-                    userCreator.text(names[i], (MetaText) anno);
-                }
+                userCreator.text(names[i], (MetaText) anno);
+            } else if (anno instanceof MetaVector) {
+                userCreator.vector(names[i], (MetaVector) anno);
             } else if (anno instanceof MetaSlider) {
                 userCreator.slider(names[i], (MetaSlider) anno);
             } else if (anno instanceof MetaSelectBox) {

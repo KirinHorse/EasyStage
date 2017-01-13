@@ -11,11 +11,9 @@ import java.io.Serializable;
  */
 
 public class StageBean implements Serializable {
-
-    @MetaText
     private String name, id, root;
     @MetaText
-    private int childrenSize;
+    private int children;
     @MetaCheckBox
     private boolean debug;
     @MetaTable
@@ -47,12 +45,12 @@ public class StageBean implements Serializable {
         this.root = root;
     }
 
-    public int getChildrenSize() {
-        return childrenSize;
+    public int getChildren() {
+        return children;
     }
 
-    public void setChildrenSize(int childrenSize) {
-        this.childrenSize = childrenSize;
+    public void setChildren(int children) {
+        this.children = children;
     }
 
     public boolean isDebug() {

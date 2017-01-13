@@ -32,7 +32,6 @@ public class ActorHnadler implements MethodInterceptor {
 
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        System.out.println("Actor  " + method.getName());
         return proxy.invokeSuper(obj, args);
     }
 }

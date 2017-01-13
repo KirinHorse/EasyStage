@@ -12,5 +12,14 @@ import java.lang.annotation.Target;
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface MetaColorChooser {
+public @interface MetaVector {
+    boolean editable() default false;
+
+    MetaText.Filter filter() default MetaText.Filter.FLOAT;
+
+    int size() default 2;
+
+    int maxLength() default 10;
+
+    char[] prefix() default {'x', 'y', 'z', 'p', 'q', 'r', 'u', 'v', 'w', 'm', 'n', 'k'};
 }

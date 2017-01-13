@@ -66,7 +66,7 @@ public class Server implements Runnable {
                         started = false;
                         return;
                     }
-                    System.out.println(text);
+                    System.err.println(text);
                 } catch (Exception e) {
                     started = false;
                     e.printStackTrace();

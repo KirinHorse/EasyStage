@@ -83,6 +83,10 @@ public class Client {
         }, 0, queryInterval);
     }
 
+    public void setValue(int objId, String fieldName, Object value) {
+
+    }
+
     private void log(final EasyLog.Tag tag, final String msg) {
         Gdx.app.postRunnable(new Runnable() {
             @Override

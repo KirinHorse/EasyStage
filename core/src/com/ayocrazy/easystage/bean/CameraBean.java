@@ -1,6 +1,7 @@
 package com.ayocrazy.easystage.bean;
 
 import com.ayocrazy.easystage.uimeta.MetaText;
+import com.ayocrazy.easystage.uimeta.MetaVector;
 
 import java.io.Serializable;
 
@@ -9,7 +10,7 @@ import java.io.Serializable;
  */
 
 public class CameraBean implements Serializable {
-    @MetaText(editable = true, filter = MetaText.Filter.FLOAT, arraySize = 3)
+    @MetaVector(editable = true, filter = MetaText.Filter.FLOAT, size = 3)
     private float[] position, direction, up;
     @MetaText(editable = true, filter = MetaText.Filter.FLOAT)
     private float near, far, zoom;
