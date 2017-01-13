@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.sun.xml.internal.bind.v2.model.core.ID;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
