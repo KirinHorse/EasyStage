@@ -1,5 +1,5 @@
 # EasyStage
-[English](https://github.com/AyoCrazy/EasyStage/blob/master/README.md)
+[English](https://github.com/AyoCrazy/EasyStage/blob/master/README_EN.md)
 ### 这是一个Libgdx的Stage剖析工具，也可以作为一个轻量级UI编辑器。
 #### 已完善功能
 
