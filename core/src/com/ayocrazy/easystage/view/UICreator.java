@@ -44,7 +44,7 @@ public class UICreator extends Table {
     public UICreator(Skin skin) {
         super(skin);
         setBackground(skin.getDrawable("default-rect"));
-//        setDebug(true);
+//        setDebugAll(true);
     }
 
     public void create(Class<? extends Serializable> claz) {

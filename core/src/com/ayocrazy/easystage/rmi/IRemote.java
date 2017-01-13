@@ -22,4 +22,6 @@ public interface IRemote extends Remote {
     ActorBean[] getActors() throws RemoteException;
 
     boolean childrenChanged() throws RemoteException;
+
+    boolean setValue(int id, String fieldName, Object value) throws RemoteException;
 }

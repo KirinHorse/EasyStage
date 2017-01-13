@@ -62,7 +62,7 @@ public class Client {
                     stageBean = remote.getStage();
                     if (userRequest) {
                         if (stageUser.getId() == 0)
-                            stageUser.setId(Integer.parseInt(stageBean.getId(), 16));
+                            stageUser.setId(stageBean.getId());
                         stageUser = remote.getUser(stageUser.getId());
                         if (stageUser.getFieldNames() == null || stageUser.getFieldNames().length < 1)
                             userRequest = false;
@@ -84,7 +84,17 @@ public class Client {
     }
 
     public void setValue(int objId, String fieldName, Object value) {
-
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    boolean success = remote.setValue(objId, fieldName, value);
+                    log(EasyLog.Tag.error, success + " set " + fieldName);
+                } catch (Exception e) {
+                    System.err.println(e.toString());
+                }
+            }
+        }, 0);
     }
 
     private void log(final EasyLog.Tag tag, final String msg) {

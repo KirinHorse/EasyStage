@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 
 public class ViewportBean implements Serializable {
-    @MetaSelectBox(items = {"ScreenViewport", "ScalingViewport", "StretchViewport", "FitViewport", "ExtendViewport", "FillViewport"})
+    @MetaSelectBox(items = {"ScreenViewport", "ScalingViewport"})
     private String type;
     @MetaSelectBox(items = {"fit", "fill", "fillX", "fillY", "stretch", "stretchX", "stretchY", "none"})
     private String scalling;

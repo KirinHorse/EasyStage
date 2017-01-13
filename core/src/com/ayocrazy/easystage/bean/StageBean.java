@@ -11,11 +11,12 @@ import java.io.Serializable;
  */
 
 public class StageBean implements Serializable {
-    private String name, id, root;
+    private String name;
+    private int id, root;
     @MetaText
     private int children;
     @MetaCheckBox
-    private boolean debug;
+    private boolean debugAll;
     @MetaTable
     private ViewportBean viewport;
     @MetaTable
@@ -29,19 +30,19 @@ public class StageBean implements Serializable {
         this.name = name;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getRoot() {
+    public int getRoot() {
         return root;
     }
 
-    public void setRoot(String root) {
+    public void setRoot(int root) {
         this.root = root;
     }
 
@@ -53,12 +54,12 @@ public class StageBean implements Serializable {
         this.children = children;
     }
 
-    public boolean isDebug() {
-        return debug;
+    public boolean isDebugAll() {
+        return debugAll;
     }
 
-    public void setDebug(boolean debug) {
-        this.debug = debug;
+    public void setDebugAll(boolean debugAll) {
+        this.debugAll = debugAll;
     }
 
     public ViewportBean getViewport() {

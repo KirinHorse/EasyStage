@@ -34,5 +34,6 @@ public class EasyGame extends ApplicationAdapter {
 
     @Override
     public void dispose() {
+        mainStage.dispose();
     }
 }

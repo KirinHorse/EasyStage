@@ -12,8 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
  */
 
 public class StageWindow extends Window {
-    private StageBean stageBean;
-    private UserBean userBean;
+    StageBean stageBean;
+    UserBean userBean;
     private ScrollPane sp;
     private UICreator creator;
 
@@ -32,7 +32,7 @@ public class StageWindow extends Window {
     }
 
     public void setStageBean(StageBean bean) {
-        if (stageBean == null || !stageBean.getId().equals(bean.getId())) {
+        if (stageBean == null || stageBean.getId() != bean.getId()) {
             getTitleLabel().setText(bean.getName());
         }
         this.stageBean = bean;

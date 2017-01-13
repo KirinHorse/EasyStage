@@ -1,7 +1,6 @@
 package com.ayocrazy.easystage.bean;
 
 import com.ayocrazy.easystage.uimeta.MetaConvertor;
-import com.ayocrazy.easystage.uimeta.MetaText;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -22,10 +21,10 @@ public class BeanCreator {
     public static final StageBean refreshStage(Stage stage, StageBean bean) {
         if (bean == null) bean = new StageBean();
         bean.setName(getName(stage));
-        bean.setId(getId(stage));
-        bean.setRoot(getName(stage.getRoot()) + "@" + getId(stage.getRoot()));
+        bean.setId(stage.hashCode());
+        bean.setRoot(stage.getRoot().hashCode());
         bean.setChildren(getActorsCount(stage.getRoot()));
-        bean.setDebug((Boolean) reflectValue(Stage.class, "debug", stage));
+        bean.setDebugAll((Boolean) reflectValue(Stage.class, "debugAll", stage));
         bean.setCamera(genCamera(stage.getCamera()));
         bean.setViewport(genViewport(stage.getViewport()));
         return bean;
@@ -102,10 +101,6 @@ public class BeanCreator {
         }
         count += group.getChildren().size;
         return count;
-    }
-
-    private static String getId(Object obj) {
-        return Integer.toHexString(obj.hashCode());
     }
 
     private static String getName(Object obj) {
