@@ -1,4 +1,5 @@
 # EasyStage
+[中文版](https://github.com/AyoCrazy/EasyStage/blob/master/README_CH.md)
 ### A stage profile tool for libgdx and also a stage editor if you like;
 * You can scan and modify the most properties of the stage with its actors **on runtime**; 
 * And you can save the values modified into a json.
