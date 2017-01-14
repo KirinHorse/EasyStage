@@ -83,7 +83,7 @@ public class Client {
         }, 0, queryInterval);
     }
 
-    public void setValue(int objId, String fieldName, Object value) {
+    public void setValue(final int objId, final String fieldName, final Object value) {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {

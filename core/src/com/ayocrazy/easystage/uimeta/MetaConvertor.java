@@ -72,7 +72,7 @@ public class MetaConvertor {
         return null;
     }
 
-    private static final Annotation text(String[] params) {
+    private static final Annotation text(final String[] params) {
         return new MetaText() {
             @Override
             public boolean editable() {
@@ -96,7 +96,7 @@ public class MetaConvertor {
         };
     }
 
-    private static final Annotation vector(String[] params) {
+    private static final Annotation vector(final String[] params) {
         return new MetaVector() {
             @Override
             public boolean editable() {
@@ -130,7 +130,7 @@ public class MetaConvertor {
         };
     }
 
-    private static Annotation selectBox(String[] params) {
+    private static Annotation selectBox(final String[] params) {
         return new MetaSelectBox() {
             @Override
             public String[] items() {
@@ -154,7 +154,7 @@ public class MetaConvertor {
         };
     }
 
-    private static Annotation slider(String[] params) {
+    private static Annotation slider(final String[] params) {
         return new MetaSlider() {
             @Override
             public float minValue() {
