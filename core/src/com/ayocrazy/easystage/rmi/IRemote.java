@@ -23,5 +23,6 @@ public interface IRemote extends Remote {
 
     boolean childrenChanged() throws RemoteException;
 
-    boolean setValue(int id, String fieldName, Object value) throws RemoteException;
+    boolean setValue(int id, String fieldName, String methodName, Object value) throws RemoteException;
+
 }

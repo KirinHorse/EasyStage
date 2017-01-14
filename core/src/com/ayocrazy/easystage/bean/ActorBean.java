@@ -11,11 +11,11 @@ import java.io.Serializable;
  * Created by ayo on 2017/1/11.
  */
 
-public class ActorBean implements Serializable {
+public class ActorBean extends BaseBean {
     @MetaText
     private int childrenSize;
     @MetaText
-    private String name, id, parentName;
+    private String name, parentName;
     @MetaVector(editable = true, size = 4, prefix = {'r', 'g', 'b', 'a'})
     private float[] color;
     @MetaCheckBox
@@ -37,14 +37,6 @@ public class ActorBean implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getParentName() {

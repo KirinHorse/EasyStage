@@ -2,7 +2,6 @@ package com.ayocrazy.easystage.uimeta;
 
 import com.badlogic.gdx.utils.StringBuilder;
 
-import java.io.PrintStream;
 import java.lang.annotation.Annotation;
 
 /**
@@ -47,6 +46,9 @@ public class MetaConvertor {
             sb.append("MetaCheckBox");
         } else if (meta instanceof MetaTable) {
             sb.append("MetaTable");
+        } else if (meta instanceof MetaMethod) {
+            sb.append("MetaMethod,");
+            sb.append(((MetaMethod) meta).name());
         } else {
             sb.append(meta.getClass().getName());
         }
@@ -68,6 +70,8 @@ public class MetaConvertor {
             return selectBox(params);
         } else if (metaName.equals("MetaTable")) {
             return table();
+        } else if (metaName.equals("MetaMethod")) {
+            return method(params);
         }
         return null;
     }
@@ -194,6 +198,20 @@ public class MetaConvertor {
             @Override
             public Class<? extends Annotation> annotationType() {
                 return MetaCheckBox.class;
+            }
+        };
+    }
+
+    private static Annotation method(final String[] params) {
+        return new MetaMethod() {
+            @Override
+            public String name() {
+                return params[1];
+            }
+
+            @Override
+            public Class<? extends Annotation> annotationType() {
+                return MetaMethod.class;
             }
         };
     }

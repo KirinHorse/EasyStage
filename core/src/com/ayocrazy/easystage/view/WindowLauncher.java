@@ -9,7 +9,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
  */
 
 public class WindowLauncher {
-    public static void main(String... args) {
+    public static void main(String[] args) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = 1280;
         config.height = 720;

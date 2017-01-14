@@ -1,5 +1,7 @@
 package com.ayocrazy.easystage.view;
 
+import com.ayocrazy.easystage.bean.BeanCreator;
+import com.ayocrazy.easystage.bean.StageBean;
 import com.ayocrazy.easystage.rmi.Client;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -65,11 +67,13 @@ public class MainStage extends Stage {
         addActor(actorTree);
         addActor(log);
         client = new Client(stageWindow);
+//        StageBean bean = BeanCreator.refreshStage(this, null);
+//        stageWindow.setStageBean(bean);
     }
 
     private void initSkin() {
         skin = new Skin(Gdx.files.internal("skin/skin.json"));
-        font = new NativeFont(new NativeFontPaint(14));
+        font = new NativeFont(new NativeFontPaint(15));
 //        font.setSize(15);
         skin.add("default", font, BitmapFont.class);
         TextField.TextFieldStyle style = skin.get(TextField.TextFieldStyle.class);

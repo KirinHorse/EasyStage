@@ -53,7 +53,7 @@ public class StageIRemote extends UnicastRemoteObject implements IRemote {
     }
 
     @Override
-    public boolean setValue(int id, String fieldName, Object value) throws RemoteException {
+    public boolean setValue(int id, String fieldName, String methodName, Object value) throws RemoteException {
         if (value == null) return false;
         Object owner = owners.get(id);
         if (owner == null) return false;
@@ -64,14 +64,13 @@ public class StageIRemote extends UnicastRemoteObject implements IRemote {
             else if (result == -1) return false;
         }
         Class claz = owner.getClass().getSuperclass();
-        System.out.println(claz.getName());
         try {
             String names[] = fieldName.split(":");
             Object parent = owner;
             Field field;
             for (int i = 0; i < names.length; i++) {
                 field = getField(claz, fieldName);
-                System.out.println(field.getName());
+//                System.out.println(field.getName());
                 field.setAccessible(true);
                 if (i == names.length - 1) {
                     int result = ValueSpecial.specialField(parent, field, value);

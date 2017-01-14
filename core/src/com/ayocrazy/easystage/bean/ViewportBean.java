@@ -4,13 +4,11 @@ import com.ayocrazy.easystage.uimeta.MetaSelectBox;
 import com.ayocrazy.easystage.uimeta.MetaText;
 import com.ayocrazy.easystage.uimeta.MetaVector;
 
-import java.io.Serializable;
-
 /**
  * Created by ayo on 2017/1/11.
  */
 
-public class ViewportBean implements Serializable {
+public class ViewportBean extends BaseBean {
     @MetaSelectBox(items = {"ScreenViewport", "ScalingViewport"})
     private String type;
     @MetaSelectBox(items = {"fit", "fill", "fillX", "fillY", "stretch", "stretchX", "stretchY", "none"})

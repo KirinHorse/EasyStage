@@ -22,7 +22,6 @@ public class BeanCreator {
         if (bean == null) bean = new StageBean();
         bean.setName(getName(stage));
         bean.setId(stage.hashCode());
-        bean.setRoot(stage.getRoot().hashCode());
         bean.setChildren(getActorsCount(stage.getRoot()));
         bean.setDebugAll((Boolean) reflectValue(Stage.class, "debugAll", stage));
         bean.setCamera(genCamera(stage.getCamera()));
@@ -46,7 +45,6 @@ public class BeanCreator {
 
     public static final UserBean genUserBean(Object obj) {
         UserBean bean = new UserBean();
-        bean.setId(obj.hashCode());
         Class claz = obj.getClass().getSuperclass();
         Field fields[] = claz.getDeclaredFields();
         Array<String> names = new Array();
@@ -69,6 +67,7 @@ public class BeanCreator {
 
     public static final ViewportBean genViewport(Viewport vp) {
         ViewportBean bean = new ViewportBean();
+        bean.setId(vp.hashCode());
         bean.setType(getName(vp));
         if (vp instanceof ScalingViewport) {
             bean.setScalling(((ScalingViewport) vp).getScaling().name());
@@ -81,6 +80,7 @@ public class BeanCreator {
 
     public static final CameraBean genCamera(Camera camera) {
         CameraBean bean = new CameraBean();
+        bean.setId(camera.hashCode());
         bean.setPosition(new float[]{camera.position.x, camera.position.y, camera.position.z});
         bean.setDirection(new float[]{camera.direction.x, camera.direction.y, camera.direction.z});
         bean.setUp(new float[]{camera.up.x, camera.up.y, camera.up.z});

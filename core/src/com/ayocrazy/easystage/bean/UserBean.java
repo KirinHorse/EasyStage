@@ -7,18 +7,10 @@ import java.io.Serializable;
  */
 
 public class UserBean implements Serializable {
-    private int id;
     private String[] fieldNames;
+    private String[] methodNames;
     private String[] metas;
     private Object[] values;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String[] getFieldNames() {
         return fieldNames;
@@ -42,5 +34,13 @@ public class UserBean implements Serializable {
 
     public void setValues(Object[] values) {
         this.values = values;
+    }
+
+    public String[] getMethodNames() {
+        return methodNames;
+    }
+
+    public void setMethodNames(String[] methodNames) {
+        this.methodNames = methodNames;
     }
 }

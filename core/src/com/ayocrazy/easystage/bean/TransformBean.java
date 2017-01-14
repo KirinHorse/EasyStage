@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by ayo on 2017/1/11.
  */
 
-public class TransformBean implements Serializable {
+public class TransformBean extends BaseBean {
     @MetaVector(editable = true)
     private float[] position, size, origion, scale;
     @MetaText(editable = true, filter = MetaText.Filter.FLOAT, maxLength = 10)

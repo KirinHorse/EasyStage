@@ -3,13 +3,11 @@ package com.ayocrazy.easystage.bean;
 import com.ayocrazy.easystage.uimeta.MetaText;
 import com.ayocrazy.easystage.uimeta.MetaVector;
 
-import java.io.Serializable;
-
 /**
  * Created by ayo on 2017/1/11.
  */
 
-public class CameraBean implements Serializable {
+public class CameraBean extends BaseBean {
     @MetaVector(editable = true, filter = MetaText.Filter.FLOAT, size = 3)
     private float[] position, direction, up;
     @MetaText(editable = true, filter = MetaText.Filter.FLOAT)

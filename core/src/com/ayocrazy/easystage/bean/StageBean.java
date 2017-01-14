@@ -10,9 +10,8 @@ import java.io.Serializable;
  * Created by ayo on 2017/1/11.
  */
 
-public class StageBean implements Serializable {
+public class StageBean extends BaseBean {
     private String name;
-    private int id, root;
     @MetaText
     private int children;
     @MetaCheckBox
@@ -28,22 +27,6 @@ public class StageBean implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getRoot() {
-        return root;
-    }
-
-    public void setRoot(int root) {
-        this.root = root;
     }
 
     public int getChildren() {

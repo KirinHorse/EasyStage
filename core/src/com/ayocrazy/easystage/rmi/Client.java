@@ -1,7 +1,6 @@
 package com.ayocrazy.easystage.rmi;
 
 import com.ayocrazy.easystage.bean.StageBean;
-import com.ayocrazy.easystage.bean.UserBean;
 import com.ayocrazy.easystage.view.EasyLog;
 import com.ayocrazy.easystage.view.StageWindow;
 import com.badlogic.gdx.Gdx;
@@ -15,20 +14,25 @@ import java.util.TimerTask;
  */
 
 public class Client {
+    private static Client instance;
+
     private long retryInterval = 3000;
     private long queryInterval = 100;
     private Timer timer;
     private IRemote remote;
     private StageBean stageBean;
-    private UserBean stageUser;
     private StageWindow stageWindow;
     private boolean userRequest;
 
     public Client(StageWindow stageWindow) {
+        instance = this;
         this.stageWindow = stageWindow;
-        stageUser = new UserBean();
         timer = new Timer();
         start(0);
+    }
+
+    public static Client get() {
+        return instance;
     }
 
     public void stop() {
@@ -60,18 +64,9 @@ public class Client {
             public void run() {
                 try {
                     stageBean = remote.getStage();
-                    if (userRequest) {
-                        if (stageUser.getId() == 0)
-                            stageUser.setId(stageBean.getId());
-                        stageUser = remote.getUser(stageUser.getId());
-                        if (stageUser.getFieldNames() == null || stageUser.getFieldNames().length < 1)
-                            userRequest = false;
-                    }
                     Gdx.app.postRunnable(new Runnable() {
                         @Override
                         public void run() {
-                            if (userRequest)
-                                stageWindow.setUserBean(stageUser);
                             stageWindow.setStageBean(stageBean);
                         }
                     });
@@ -83,13 +78,12 @@ public class Client {
         }, 0, queryInterval);
     }
 
-    public void setValue(final int objId, final String fieldName, final Object value) {
+    public void setValue(final int objId, final String fieldName, final String methodName, final Object value) {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 try {
-                    boolean success = remote.setValue(objId, fieldName, value);
-                    log(EasyLog.Tag.error, success + " set " + fieldName);
+                    boolean success = remote.setValue(objId, fieldName, methodName, value);
                 } catch (Exception e) {
                     System.err.println(e.toString());
                 }
