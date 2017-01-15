@@ -1,7 +1,5 @@
 package com.ayocrazy.easystage.view;
 
-import com.ayocrazy.easystage.bean.BeanCreator;
-import com.ayocrazy.easystage.bean.StageBean;
 import com.ayocrazy.easystage.rmi.Client;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;

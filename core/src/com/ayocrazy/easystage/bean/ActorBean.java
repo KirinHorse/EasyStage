@@ -1,6 +1,7 @@
 package com.ayocrazy.easystage.bean;
 
 import com.ayocrazy.easystage.uimeta.MetaCheckBox;
+import com.ayocrazy.easystage.uimeta.MetaSlider;
 import com.ayocrazy.easystage.uimeta.MetaTable;
 import com.ayocrazy.easystage.uimeta.MetaText;
 import com.ayocrazy.easystage.uimeta.MetaVector;

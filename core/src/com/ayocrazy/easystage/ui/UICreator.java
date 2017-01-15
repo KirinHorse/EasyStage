@@ -23,6 +23,7 @@ import com.badlogic.gdx.utils.Array;
 
 import net.mwplay.nativefont.NativeLabel;
 
+import java.io.PrintStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -111,9 +112,10 @@ public class UICreator extends Table {
                     addWidget(names[i], meta, (MetaMethod) MetaConvertor.getMeta(methods[i]));
                 }
             } catch (Exception e) {
+                e.printStackTrace(new PrintStream(System.err));
             }
         }
-        separator().colspan(2);
+        separator();
     }
 
     private void updateUser() {
@@ -165,7 +167,7 @@ public class UICreator extends Table {
         tables.put(name, creator);
     }
 
-    private Cell separator() {
+    private void separator() {
         Pixmap p = new Pixmap(1, 1, Pixmap.Format.RGB888);
         p.setColor(Color.WHITE);
         p.fill();
@@ -174,6 +176,6 @@ public class UICreator extends Table {
         Image img = new Image(t);
         img.setColor(Color.GRAY);
         img.setHeight(10);
-        return add(img).pad(5, 5, 5, 5).fillX().expandX();
+        add(img).pad(5, 5, 5, 5).colspan(2).fillX().row();
     }
 }

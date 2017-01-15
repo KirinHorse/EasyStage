@@ -1,6 +1,7 @@
 package com.ayocrazy.easystage.rmi;
 
 import com.ayocrazy.easystage.bean.ActorBean;
+import com.ayocrazy.easystage.bean.BaseBean;
 import com.ayocrazy.easystage.bean.StageBean;
 import com.ayocrazy.easystage.bean.UserBean;
 
@@ -15,7 +16,7 @@ import java.rmi.RemoteException;
 public interface IRemote extends Remote {
     StageBean getStage() throws RemoteException;
 
-    UserBean getUser(int id) throws RemoteException;
+    BaseBean get(int id) throws RemoteException;
 
     ActorBean getActor(String id) throws RemoteException;
 

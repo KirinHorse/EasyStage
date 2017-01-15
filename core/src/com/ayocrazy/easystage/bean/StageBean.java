@@ -1,6 +1,7 @@
 package com.ayocrazy.easystage.bean;
 
 import com.ayocrazy.easystage.uimeta.MetaCheckBox;
+import com.ayocrazy.easystage.uimeta.MetaMethod;
 import com.ayocrazy.easystage.uimeta.MetaTable;
 import com.ayocrazy.easystage.uimeta.MetaText;
 
@@ -15,6 +16,7 @@ public class StageBean extends BaseBean {
     @MetaText
     private int children;
     @MetaCheckBox
+    @MetaMethod
     private boolean debugAll;
     @MetaTable
     private ViewportBean viewport;
