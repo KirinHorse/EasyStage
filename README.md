@@ -1,11 +1,12 @@
 # EasyStage
 [English](https://github.com/AyoCrazy/EasyStage/blob/master/README_EN.md)
-### 这是一个Libgdx的Stage剖析工具，也可以作为一个轻量级UI编辑器。
+### 一个Libgdx的Stage剖析工具，也可以作为一个轻量级UI编辑器。
 #### 已完善功能
+* 运行时查看、修改Stage基础属性和自定义属性
 
 #### 正在开发功能
-* 在运行时实时查看并修改Stage和Actors的属性
-* 实时查看和修改自定义属性
+* 显示Actors列表
+* 运行时实时查看并修改Actors的属性
 
 #### 下一步开发功能
 * 保存修改后的属性到json文件
