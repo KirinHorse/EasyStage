@@ -51,7 +51,8 @@ public class EasySelectBox extends SelectBox<String> implements EasyUI {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (!isShow) return;
-                Command.doCmd(new SetValueCommand(objId, fieldName, methodName, lastValue, getSelected()));
+                if (!getSelected().equals(lastValue))
+                    Command.doCmd(new SetValueCommand(objId, fieldName, methodName, lastValue, getSelected()));
             }
         });
     }

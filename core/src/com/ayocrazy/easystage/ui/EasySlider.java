@@ -56,7 +56,8 @@ public class EasySlider extends Table implements EasyUI {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 isFocus = false;
-                Command.doCmd(new SetValueCommand(objId, fieldName, methodName, lastValue, slider.getValue()));
+                if (slider.getValue() != lastValue)
+                    Command.doCmd(new SetValueCommand(objId, fieldName, methodName, lastValue, slider.getValue()));
             }
         });
         slider.addListener(new ChangeListener() {

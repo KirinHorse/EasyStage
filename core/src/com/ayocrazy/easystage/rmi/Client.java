@@ -85,7 +85,7 @@ public class Client {
                 try {
                     boolean success = remote.setValue(objId, fieldName, methodName, value);
                 } catch (Exception e) {
-                    System.err.println(e.toString());
+                    System.err.println("出错：" + e.toString());
                 }
             }
         }, 0);

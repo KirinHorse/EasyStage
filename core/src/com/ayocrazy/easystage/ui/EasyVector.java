@@ -116,7 +116,7 @@ public class EasyVector extends Table implements EasyUI {
         textFieldListener = new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
-                if (c == '\r') {
+                if (c == '\r' || c == '\n') {
                     getStage().setKeyboardFocus(null);
                 }
             }

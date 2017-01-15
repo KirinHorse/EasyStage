@@ -58,7 +58,6 @@ public class EasyTextField extends NativeTextField implements EasyUI {
         addListener(new FocusListener() {
             @Override
             public void keyboardFocusChanged(FocusEvent event, Actor actor, boolean focused) {
-                System.err.println(focused);
                 isFocus = focused;
                 if (!isFocus) {
                     if (inputError) {
@@ -69,8 +68,8 @@ public class EasyTextField extends NativeTextField implements EasyUI {
                             }
                         });
                         return;
-                    }
-                    Command.doCmd(new SetValueCommand(objId, fieldName, methodName, lastValue, getText()));
+                    } else if (!getText().equals(lastValue))
+                        Command.doCmd(new SetValueCommand(objId, fieldName, methodName, lastValue, getText()));
                 } else if (!inputError) {
                     lastValue = getText();
                 }
@@ -92,7 +91,7 @@ public class EasyTextField extends NativeTextField implements EasyUI {
         setTextFieldListener(new TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
-                if (c == ENTER_DESKTOP) {
+                if (c == '\r' || c == '\n') {
                     getStage().setKeyboardFocus(null);
                 }
             }

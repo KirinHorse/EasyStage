@@ -1,6 +1,7 @@
 package com.ayocrazy.easystage.view;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Tree;
 
@@ -12,12 +13,11 @@ import net.mwplay.nativefont.NativeLabel;
  */
 
 public class ActorTree extends Tree {
-    private NativeFont font;
+    private Skin skin;
 
     public ActorTree(Skin skin) {
         super(skin);
-        font = new NativeFont();
-        font.setSize(16);
+        this.skin = skin;
     }
 
     public void addNode(Actor actor) {
@@ -25,7 +25,7 @@ public class ActorTree extends Tree {
         if (name == null || name.length() == 0) {
             name = actor.getClass().getName();
         }
-        Node node = new Node(new NativeLabel(name, font));
+        Node node = new Node(new NativeLabel(name, skin.get(Label.LabelStyle.class)));
         node.setObject(actor);
         Node parent = findNode(actor.getParent());
         if (parent != null) {
