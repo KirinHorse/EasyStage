@@ -1,5 +1,6 @@
 package com.ayocrazy.easystage.rmi;
 
+import com.ayocrazy.easystage.bean.ActorBean;
 import com.ayocrazy.easystage.bean.StageBean;
 import com.ayocrazy.easystage.view.EasyLog;
 import com.ayocrazy.easystage.view.StageWindow;
@@ -21,6 +22,7 @@ public class Client {
     private Timer timer;
     private IRemote remote;
     private StageBean stageBean;
+    private ActorBean actorBean;
     private StageWindow stageWindow;
     private boolean userRequest;
 
@@ -68,6 +70,7 @@ public class Client {
                         @Override
                         public void run() {
                             stageWindow.setStageBean(stageBean);
+                            loop();
                         }
                     });
                 } catch (Exception e) {
@@ -75,7 +78,7 @@ public class Client {
                     start(1000);
                 }
             }
-        }, 0, queryInterval);
+        }, queryInterval);
     }
 
     public void setValue(final int objId, final String fieldName, final String methodName, final Object value) {
@@ -83,7 +86,7 @@ public class Client {
             @Override
             public void run() {
                 try {
-                    boolean success = remote.setValue(objId, fieldName, methodName, value);
+                    remote.setValue(objId, fieldName, methodName, value);
                 } catch (Exception e) {
                     System.err.println("出错：" + e.toString());
                 }

@@ -1,35 +1,39 @@
 package com.ayocrazy.easystage.bean;
 
 import com.ayocrazy.easystage.uimeta.MetaCheckBox;
-import com.ayocrazy.easystage.uimeta.MetaSlider;
+import com.ayocrazy.easystage.uimeta.MetaMethod;
+import com.ayocrazy.easystage.uimeta.MetaSelectBox;
 import com.ayocrazy.easystage.uimeta.MetaTable;
 import com.ayocrazy.easystage.uimeta.MetaText;
 import com.ayocrazy.easystage.uimeta.MetaVector;
-
-import java.io.Serializable;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 /**
  * Created by ayo on 2017/1/11.
  */
 
 public class ActorBean extends BaseBean {
-    @MetaText
-    private int childrenSize;
-    @MetaText
-    private String name, parentName;
-    @MetaVector(editable = true, size = 4, prefix = {'r', 'g', 'b', 'a'})
-    private float[] color;
+    private int children;
+    private String name;
+    private int id, parentId;
     @MetaCheckBox
     private boolean visible, debug;
+    @MetaSelectBox(enumClass = Touchable.class)
+    private String touchable;
+    @MetaVector(editable = true, size = 4, prefix = {'r', 'g', 'b', 'a'}, maxLength = 5)
+    private float[] color;
+    @MetaText(editable = true, filter = MetaText.Filter.PosINT)
+    @MetaMethod
+    private int zIndex;
     @MetaTable
     private TransformBean transform;
 
-    public int getChildrenSize() {
-        return childrenSize;
+    public int getChildren() {
+        return children;
     }
 
-    public void setChildrenSize(int childrenSize) {
-        this.childrenSize = childrenSize;
+    public void setChildren(int children) {
+        this.children = children;
     }
 
     public String getName() {
@@ -40,12 +44,30 @@ public class ActorBean extends BaseBean {
         this.name = name;
     }
 
-    public String getParentName() {
-        return parentName;
+    @Override
+    public int getId() {
+        return id;
     }
 
-    public void setParentName(String parentName) {
-        this.parentName = parentName;
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTouchable() {
+        return touchable;
+    }
+
+    public void setTouchable(String touchable) {
+        this.touchable = touchable;
+    }
+
+    public int getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
     }
 
     public float[] getColor() {
@@ -70,6 +92,14 @@ public class ActorBean extends BaseBean {
 
     public void setDebug(boolean debug) {
         this.debug = debug;
+    }
+
+    public void setzIndex(int zIndex) {
+        this.zIndex = zIndex;
+    }
+
+    public int getzIndex() {
+        return zIndex;
     }
 
     public TransformBean getTransform() {

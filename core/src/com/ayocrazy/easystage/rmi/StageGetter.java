@@ -8,8 +8,6 @@ import com.ayocrazy.easystage.uimeta.MetaConvertor;
 import com.ayocrazy.easystage.uimeta.MetaMethod;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
@@ -53,7 +51,7 @@ public class StageGetter {
     }
 
     public void childrenChanged() {
-        children = getActorsCount(stage.getRoot());
+        children = stage.getActors().size;
     }
 
     private void refreshViewport() {
@@ -85,7 +83,7 @@ public class StageGetter {
         }
     }
 
-    private UserBean createUser(Object obj) {
+    static UserBean createUser(Object obj) {
         UserBean bean = new UserBean();
         Array<String> names = new Array<>();
         Array<String> metas = new Array<>();
@@ -122,7 +120,7 @@ public class StageGetter {
         return bean;
     }
 
-    private void refreshUser(UserBean user, Object obj) {
+    static void refreshUser(UserBean user, Object obj) {
         if (user == null || obj == null) return;
         String[] names = user.getFieldNames();
         if (names == null || names.length < 1) return;
@@ -136,16 +134,4 @@ public class StageGetter {
         Class claz = EasyReflect.getClaz(obj);
         return claz.getSimpleName();
     }
-
-    static int getActorsCount(Group group) {
-        int count = 0;
-        for (Actor actor : group.getChildren()) {
-            if (actor instanceof Group) {
-                count += getActorsCount((Group) actor);
-            }
-        }
-        count += group.getChildren().size;
-        return count;
-    }
-
 }

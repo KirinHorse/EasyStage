@@ -16,13 +16,9 @@ import java.rmi.RemoteException;
 public interface IRemote extends Remote {
     StageBean getStage() throws RemoteException;
 
-    BaseBean get(int id) throws RemoteException;
-
-    ActorBean getActor(String id) throws RemoteException;
+    ActorBean getActor(int id) throws RemoteException;
 
     ActorBean[] getActors() throws RemoteException;
-
-    boolean childrenChanged() throws RemoteException;
 
     boolean setValue(int id, String fieldName, String methodName, Object value) throws RemoteException;
 

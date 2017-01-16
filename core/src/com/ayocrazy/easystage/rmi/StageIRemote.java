@@ -3,10 +3,15 @@ package com.ayocrazy.easystage.rmi;
 import com.ayocrazy.easystage.bean.ActorBean;
 import com.ayocrazy.easystage.bean.BaseBean;
 import com.ayocrazy.easystage.bean.StageBean;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntMap;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashMap;
 
 /**
  * Created by ayo on 2017/1/10.
@@ -15,20 +20,23 @@ import java.rmi.server.UnicastRemoteObject;
 public class StageIRemote extends UnicastRemoteObject implements IRemote {
     private StageGetter stageGetter;
     private StageSetter stageSetter;
+    private IntMap<ActorGetter> actorGetters = new IntMap<>();
 
     public StageIRemote(Stage stage) throws RemoteException {
         stageGetter = new StageGetter(stage);
         stageSetter = new StageSetter(stageGetter);
+        actorGetters(stage.getRoot());
+    }
+
+    private void actorGetters(Group group) {
+        for (Actor actor : group.getChildren()) {
+            actorGetters.put(actor.hashCode(), new ActorGetter(actor, stageGetter));
+        }
     }
 
     @Override
     public StageBean getStage() throws RemoteException {
         return stageGetter.refreshStageBean();
-    }
-
-    @Override
-    public BaseBean get(int id) throws RemoteException {
-        return null;
     }
 
     @Override
@@ -41,17 +49,12 @@ public class StageIRemote extends UnicastRemoteObject implements IRemote {
     }
 
     @Override
-    public ActorBean getActor(String id) throws RemoteException {
-        return null;
+    public ActorBean getActor(int id) throws RemoteException {
+        return actorGetters.get(id).refreshActor();
     }
 
     @Override
     public ActorBean[] getActors() throws RemoteException {
         return new ActorBean[0];
-    }
-
-    @Override
-    public boolean childrenChanged() throws RemoteException {
-        return false;
     }
 }
