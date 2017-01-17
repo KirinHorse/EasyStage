@@ -27,7 +27,7 @@ repositories {
 
 dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-    compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     compile "cglib:cglib:$cglibVersion"
     compile "com.github.tianqiujie:nativefont:$nativefontVersion"
