@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.netflix.nebula:nebula-project-plugin:3.0.4'
+        classpath 'com.netflix.nebula:nebula-project-plugin:3.3.0'
     }
 }
 
@@ -45,5 +45,9 @@ task run(dependsOn: demoClasses, type: JavaExec) {
     standardInput = System.in
     workingDir = "$projectDir/src/demo/resources"
     ignoreExitValue = true
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.3'
 }
 
