@@ -6,8 +6,11 @@ import com.ayocrazy.easystage.uimeta.MetaMethod;
 import com.ayocrazy.easystage.uimeta.MetaText;
 import com.ayocrazy.easystage.uimeta.MetaVector;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -56,7 +59,7 @@ public class EasyVector extends Table implements EasyUI {
                 tfs[i].setTextFieldFilter(EasyTextField.getFilter(filter));
                 tfs[i].addListener(focusListener);
                 tfs[i].addListener(changeListener);
-                tfs[i].setTextFieldListener(textFieldListener);
+                tfs[i].addListener(enterListener);
             } else {
                 tfs[i].setDisabled(true);
             }
@@ -76,7 +79,7 @@ public class EasyVector extends Table implements EasyUI {
 
     private FocusListener focusListener;
     private ChangeListener changeListener;
-    private TextField.TextFieldListener textFieldListener;
+    private InputListener enterListener;
 
     private void initListener() {
         focusListener = new FocusListener() {
@@ -113,12 +116,13 @@ public class EasyVector extends Table implements EasyUI {
                 inputError = !valid;
             }
         };
-        textFieldListener = new TextField.TextFieldListener() {
+        enterListener = new InputListener() {
             @Override
-            public void keyTyped(TextField textField, char c) {
-                if (c == '\r' || c == '\n') {
+            public boolean keyUp(InputEvent event, int keycode) {
+                if (keycode == Input.Keys.CENTER || keycode == Input.Keys.ENTER) {
                     getStage().setKeyboardFocus(null);
                 }
+                return true;
             }
         };
     }

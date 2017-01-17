@@ -22,6 +22,7 @@ public class StageWindow extends Window {
         creator.left().top();
         sp = new ScrollPane(creator, skin);
         sp.setupOverscroll(20, 20, 80);
+        sp.setFlickScroll(false);
         sp.setFlingTime(0.6f);
         add(sp).pad(3).expand().fill();
         setResizable(true);

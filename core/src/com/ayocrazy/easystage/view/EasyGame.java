@@ -22,6 +22,7 @@ public class EasyGame extends ApplicationAdapter {
 
     @Override
     public void render() {
+        Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         mainStage.act();
         mainStage.draw();

@@ -2,6 +2,7 @@ package com.ayocrazy.easystage.view;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.graphics.Color;
 
 
 /**
@@ -13,7 +14,8 @@ public class WindowLauncher {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = 1280;
         config.height = 720;
+        config.initialBackgroundColor = Color.CLEAR;
         config.title = "EasyStage v" + System.getProperty("Manifest-Version");
-        new LwjglApplication(new EasyGame(), config);
+        LwjglApplication app = new LwjglApplication(new EasyGame(), config);
     }
 }

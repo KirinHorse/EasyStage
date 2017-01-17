@@ -5,8 +5,11 @@ import com.ayocrazy.easystage.command.SetValueCommand;
 import com.ayocrazy.easystage.uimeta.MetaMethod;
 import com.ayocrazy.easystage.uimeta.MetaText;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -88,12 +91,13 @@ public class EasyTextField extends NativeTextField implements EasyUI {
                 inputError = !valid;
             }
         });
-        setTextFieldListener(new TextFieldListener() {
+        addListener(new InputListener() {
             @Override
-            public void keyTyped(TextField textField, char c) {
-                if (c == '\r' || c == '\n') {
+            public boolean keyUp(InputEvent event, int keycode) {
+                if (keycode == Input.Keys.ENTER || keycode == Input.Keys.CENTER) {
                     getStage().setKeyboardFocus(null);
                 }
+                return true;
             }
         });
     }
