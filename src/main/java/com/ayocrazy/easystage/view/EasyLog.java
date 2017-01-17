@@ -34,7 +34,8 @@ public class EasyLog extends EasyWindow {
         super(title, skin);
         vg = new VerticalGroup();
         vg.pad(2, 2, 20, 20);
-        vg.top().left();
+        vg.align(Align.topLeft);
+        vg.columnLeft();
         getScrollPane().setWidget(vg);
         instance = this;
     }
