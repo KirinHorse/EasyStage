@@ -2,10 +2,13 @@ package com.ayocrazy.easystage.view;
 
 import com.ayocrazy.easystage.bean.ActorBean;
 import com.ayocrazy.easystage.bean.StageBean;
+import com.ayocrazy.easystage.rmi.Client;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Tree;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.IntMap;
 
 import net.mwplay.nativefont.NativeLabel;
@@ -21,6 +24,17 @@ public class ActorTree extends Tree {
     public ActorTree(Skin skin) {
         super(skin);
         this.skin = skin;
+        initListener();
+    }
+
+    private void initListener() {
+        addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Node node = getSelection().getLastSelected();
+                Client.get().setCurrentActor(node == null ? null : (ActorBean) node.getObject());
+            }
+        });
     }
 
     public void addNodes(Node parent, ActorBean actor) {

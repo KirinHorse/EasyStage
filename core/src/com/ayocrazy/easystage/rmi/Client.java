@@ -129,6 +129,10 @@ public class Client {
         });
     }
 
+    public void setCurrentActor(ActorBean currentActor) {
+        this.currentActor = currentActor;
+    }
+
     public StageBean getStage() {
         return stageBean;
     }
