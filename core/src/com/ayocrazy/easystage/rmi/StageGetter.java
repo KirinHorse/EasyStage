@@ -32,8 +32,6 @@ public class StageGetter {
     public StageGetter(Stage stage) {
         this.stage = stage;
         objects.put(stage.hashCode(), stage);
-        objects.put(stage.getViewport().hashCode(), stage.getViewport());
-        objects.put(stage.getCamera().hashCode(), stage.getCamera());
         stageBean = new StageBean();
         stageBean.setViewport(new ViewportBean());
         stageBean.setCamera(new CameraBean());
@@ -49,14 +47,29 @@ public class StageGetter {
         refreshUser(stageBean.getUser(), stage);
         refreshViewport();
         refreshCamera();
+        refreshObjects();
         return stageBean;
+    }
+
+    private void refreshObjects() {
+        for (Object obj : objects) {
+            if (obj instanceof Actor) {
+                if (((Actor) obj).getStage() != stage) {
+                    objects.remove(obj.hashCode());
+                }
+            }
+        }
     }
 
     private void refreshViewport() {
         ViewportBean bean = stageBean.getViewport();
         if (bean == null) return;
         Viewport vp = stage.getViewport();
-        bean.setId(vp.hashCode());
+        if (!objects.containsKey(vp.hashCode())) {
+            objects.remove(bean.getId());
+            objects.put(vp.hashCode(), vp);
+            bean.setId(vp.hashCode());
+        }
         bean.setType(getName(vp));
         if (vp instanceof ScalingViewport) {
             bean.setScalling(((ScalingViewport) vp).getScaling().name());
@@ -70,7 +83,11 @@ public class StageGetter {
         CameraBean bean = stageBean.getCamera();
         if (bean == null) return;
         Camera camera = stage.getCamera();
-        bean.setId(camera.hashCode());
+        if (!objects.containsKey(camera.hashCode())) {
+            objects.remove(bean.getId());
+            objects.put(camera.hashCode(), camera);
+            bean.setId(camera.hashCode());
+        }
         bean.setPosition(new float[]{camera.position.x, camera.position.y, camera.position.z});
         bean.setDirection(new float[]{camera.direction.x, camera.direction.y, camera.direction.z});
         bean.setUp(new float[]{camera.up.x, camera.up.y, camera.up.z});
@@ -128,10 +145,14 @@ public class StageGetter {
         }
     }
 
-    static IntArray getChildrens(Group root) {
+    private IntArray getChildrens(Group root) {
         IntArray array = new IntArray();
         for (Actor actor : root.getChildren()) {
-            array.add(actor.hashCode());
+            int id = actor.hashCode();
+            array.add(id);
+            if (!objects.containsKey(id)) {
+                objects.put(id, actor);
+            }
             if (actor instanceof Group) {
                 array.addAll(getChildrens(root));
             }

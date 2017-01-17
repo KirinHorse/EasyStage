@@ -65,7 +65,7 @@ public class EasyVector extends Table implements EasyUI {
             }
             tfs[i].setAlignment(Align.center);
             add(labs[i]).padRight(2);
-            add(tfs[i]).width(80).padRight(8);
+            add(tfs[i]).width(70).padRight(8);
         }
     }
 

@@ -73,7 +73,7 @@ public class UICreator extends Table {
     }
 
     public void update(BaseBean bean) {
-        if (bean.getClass() != beanClass) {
+        if (this.bean == null || bean.getId() != this.bean.getId()) {
             reset();
             create(bean);
         }
@@ -84,8 +84,10 @@ public class UICreator extends Table {
                 Object value = field.get(bean);
                 if (value instanceof BaseBean) {
                     tables.get(field.getName()).update((BaseBean) value);
-                } else
+                } else {
                     widgets.get(field.getName()).updateValue(value);
+                    widgets.get(field.getName()).setId(bean.getId());
+                }
             } catch (Exception e) {
             }
         }
@@ -128,8 +130,10 @@ public class UICreator extends Table {
             try {
                 if (values[i] instanceof BaseBean) {
                     tables.get(names[i]).update((BaseBean) values[i]);
-                } else
+                } else {
                     widgets.get(names[i]).updateValue(values[i]);
+                    widgets.get(names[i]).setId(bean.getId());
+                }
             } catch (Exception e) {
             }
         }

@@ -36,6 +36,7 @@ public class ActorGetter {
     }
 
     public ActorBean refreshActor() {
+        if (actor.getName() != null) actorBean.setName(actor.getName());
         actorBean.setChildren(getChildren(actor));
         actorBean.setTouchable(actor.getTouchable().name());
         actorBean.setColor((float[]) EasyReflect.getValue("color", actor));
