@@ -22,7 +22,7 @@ public class ActorWindow extends Window {
         creator.left().top();
         sp = new ScrollPane(creator, skin);
         sp.setupOverscroll(20, 20, 80);
-        sp.setFlingTime(0.6f);
+        sp.setFlickScroll(false);
         add(sp).pad(3).expand().fill();
         setResizable(true);
         setResizeBorder(10);

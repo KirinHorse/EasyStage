@@ -39,7 +39,7 @@ public class EasyLog extends Window {
         table.pad(2, 2, 20, 20);
         table.top().left();
         sp = new ScrollPane(table, skin);
-        sp.setFlingTime(0.5f);
+        sp.setFlickScroll(false);
         sp.setupOverscroll(20, 20, 80);
         setResizeBorder(20);
         setResizable(true);
