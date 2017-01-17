@@ -13,8 +13,8 @@ public class WindowLauncher {
     public static void main(String[] args) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setInitialBackgroundColor(Color.CLEAR);
-        config.setWindowSizeLimits(640, 360, -1, -1);
-        config.setMaximized(true);
+        config.setWindowedMode(1280, 720);
+//        config.setMaximized(true);
         config.setTitle("EasyStage v" + System.getProperty("Manifest-Version"));
         new Lwjgl3Application(new EasyGame(), config);
     }
