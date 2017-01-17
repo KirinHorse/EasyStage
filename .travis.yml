@@ -7,4 +7,4 @@ jdk:
 env:
  - GDX_VERSION=1.9.5
  - GDX_VERSION=1.8.0
- - GDX_VERSION=1.7.0
+ - GDX_VERSION=1.7.3
