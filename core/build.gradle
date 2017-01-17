@@ -9,7 +9,7 @@ project.ext.testClassName = "test.DesktopLauncher"
 project.ext.mainClassName = "com.ayocrazy.easystage.view.WindowLauncher"
 project.ext.assetsDir = new File("assets");
 
-task test(dependsOn: classes, type: JavaExec) {
+task run(dependsOn: classes, type: JavaExec) {
     main = project.testClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
