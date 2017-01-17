@@ -14,15 +14,11 @@ public class ActorGetter {
     private IntMap<Object> objects;
     private Actor actor;
     private ActorBean actorBean;
-    private int children;
 
     public ActorGetter(Actor actor, StageGetter stageGetter) {
         this.objects = stageGetter.objects;
         this.actor = actor;
         objects.put(actor.hashCode(), actor);
-        if (actor instanceof Group) {
-            children = ((Group) actor).getChildren().size;
-        }
         actorBean = new ActorBean();
         actorBean.setId(actor.hashCode());
         actorBean.setName(EasyReflect.getClaz(actor).getSimpleName());
@@ -40,8 +36,7 @@ public class ActorGetter {
     }
 
     public ActorBean refreshActor() {
-        actorBean.setId(actor.hashCode());
-        actorBean.setChildren(children);
+        actorBean.setChildren(getChildren(actor));
         actorBean.setTouchable(actor.getTouchable().name());
         actorBean.setColor((float[]) EasyReflect.getValue("color", actor));
         actorBean.setDebug((boolean) EasyReflect.getValue("debug", actor));
@@ -65,4 +60,21 @@ public class ActorGetter {
         bean.getSize()[1] = actor.getHeight();
         bean.setRotation(actor.getRotation());
     }
+
+    private int[] getChildren(Actor actor) {
+        if (actor instanceof Group) {
+            int[] children = actorBean.getChildren();
+            if (children == null || children.length != ((Group) actor).getChildren().size) {
+                children = new int[((Group) actor).getChildren().size];
+            }
+            for (int i = 0; i < children.length; i++) {
+                children[i] = ((Group) actor).getChildren().get(i).hashCode();
+            }
+            return children;
+        } else {
+            return noChild;
+        }
+    }
+
+    private static final int[] noChild = new int[0];
 }

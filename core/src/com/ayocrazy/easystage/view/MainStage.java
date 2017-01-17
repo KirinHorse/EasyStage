@@ -29,6 +29,7 @@ public class MainStage extends Stage {
     ActorTree actorTree;
     EasyLog log;
     StageWindow stageWindow;
+    ActorWindow actorWindow;
     Client client;
 
     public static MainStage get() {
@@ -55,18 +56,23 @@ public class MainStage extends Stage {
         stop.setPosition(5, getHeight(), Align.topLeft);
         addActor(stop);
 
-        stageWindow = new StageWindow("", skin);
-        actorTree = new ActorTree(skin);
         log = new EasyLog("log", skin);
-        stageWindow.setSize(getWidth() * 0.4f, getHeight() * 0.6f);
+        actorTree = new ActorTree(skin);
+        TreeWindow window = new TreeWindow("Hierarchy", skin, actorTree);
+        stageWindow = new StageWindow("", skin);
+        actorWindow = new ActorWindow("", skin);
         log.setSize(getWidth(), getHeight() * 0.2f);
+        stageWindow.setSize(getWidth() * 0.4f, getHeight() * 0.8f);
+        actorWindow.setSize(getWidth() * 0.4f, getHeight() * 0.8f);
+        window.setSize(getWidth() * 0.2f, getHeight() * 0.8f);
         stageWindow.setPosition(getWidth(), getHeight(), Align.topRight);
-        addActor(stageWindow);
-        addActor(actorTree);
+        actorWindow.setPosition(stageWindow.getX(), getHeight(), Align.topRight);
+        window.setPosition(0, getHeight(), Align.topLeft);
         addActor(log);
-        client = new Client(stageWindow);
-//        StageBean bean = BeanCreator.refreshStage(this, null);
-//        stageWindow.setStageBean(bean);
+        addActor(stageWindow);
+        addActor(actorWindow);
+        addActor(window);
+        client = new Client(stageWindow, actorTree, actorWindow);
     }
 
     private void initSkin() {

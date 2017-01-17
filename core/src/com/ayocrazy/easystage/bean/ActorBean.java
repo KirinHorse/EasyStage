@@ -13,9 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
  */
 
 public class ActorBean extends BaseBean {
-    private int children;
     private String name;
     private int id, parentId;
+    private int[] children;
     @MetaCheckBox
     private boolean visible, debug;
     @MetaSelectBox(enumClass = Touchable.class)
@@ -28,11 +28,11 @@ public class ActorBean extends BaseBean {
     @MetaTable
     private TransformBean transform;
 
-    public int getChildren() {
+    public int[] getChildren() {
         return children;
     }
 
-    public void setChildren(int children) {
+    public void setChildren(int[] children) {
         this.children = children;
     }
 

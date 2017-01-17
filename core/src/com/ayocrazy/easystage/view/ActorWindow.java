@@ -29,7 +29,9 @@ public class ActorWindow extends Window {
     }
 
     public void setBean(ActorBean bean) {
+        if (bean == null) return;
         this.bean = bean;
+        getTitleLabel().setText(bean.getName());
         creator.update(bean);
     }
 }

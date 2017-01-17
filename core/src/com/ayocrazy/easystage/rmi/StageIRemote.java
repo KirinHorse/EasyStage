@@ -29,9 +29,17 @@ public class StageIRemote extends UnicastRemoteObject implements IRemote {
     }
 
     private void actorGetters(Group group) {
+        actorGetters.put(group.hashCode(), new ActorGetter(group, stageGetter));
+        System.out.print(group.hashCode() + "  ");
         for (Actor actor : group.getChildren()) {
-            actorGetters.put(actor.hashCode(), new ActorGetter(actor, stageGetter));
+            if (actor instanceof Group) {
+                actorGetters((Group) actor);
+            } else {
+                actorGetters.put(actor.hashCode(), new ActorGetter(actor, stageGetter));
+                System.out.print(actor.hashCode() + "  ");
+            }
         }
+        System.out.println();
     }
 
     @Override
@@ -55,6 +63,11 @@ public class StageIRemote extends UnicastRemoteObject implements IRemote {
 
     @Override
     public ActorBean[] getActors() throws RemoteException {
-        return new ActorBean[0];
+        ActorBean[] beans = new ActorBean[actorGetters.size];
+        Array<ActorGetter> getters = actorGetters.values().toArray();
+        for (int i = 0; i < beans.length; i++) {
+            beans[i] = getters.get(i).refreshActor();
+        }
+        return beans;
     }
 }

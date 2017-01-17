@@ -13,8 +13,8 @@ import java.io.Serializable;
 
 public class StageBean extends BaseBean {
     private String name;
-    @MetaText
-    private int children;
+    private int root;
+    private int[] children;
     @MetaCheckBox
     @MetaMethod
     private boolean debugAll;
@@ -31,11 +31,19 @@ public class StageBean extends BaseBean {
         this.name = name;
     }
 
-    public int getChildren() {
+    public int getRoot() {
+        return root;
+    }
+
+    public void setRoot(int root) {
+        this.root = root;
+    }
+
+    public int[] getChildren() {
         return children;
     }
 
-    public void setChildren(int children) {
+    public void setChildren(int[] children) {
         this.children = children;
     }
 

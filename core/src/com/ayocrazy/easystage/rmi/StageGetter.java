@@ -8,8 +8,11 @@ import com.ayocrazy.easystage.uimeta.MetaConvertor;
 import com.ayocrazy.easystage.uimeta.MetaMethod;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -25,7 +28,6 @@ public class StageGetter {
     IntMap<Object> objects = new IntMap<>();
     Stage stage;
     StageBean stageBean;
-    private int children;
 
     public StageGetter(Stage stage) {
         this.stage = stage;
@@ -36,22 +38,18 @@ public class StageGetter {
         stageBean.setViewport(new ViewportBean());
         stageBean.setCamera(new CameraBean());
         stageBean.setUser(createUser(stage));
-        childrenChanged();
     }
 
     public StageBean refreshStageBean() {
         stageBean.setName(getName(stage));
         stageBean.setId(stage.hashCode());
-        stageBean.setChildren(children);
+        stageBean.setRoot(stage.getRoot().hashCode());
+        stageBean.setChildren(getChildrens(stage.getRoot()).toArray());
         stageBean.setDebugAll((boolean) EasyReflect.getValue("debugAll", stage));
         refreshUser(stageBean.getUser(), stage);
         refreshViewport();
         refreshCamera();
         return stageBean;
-    }
-
-    public void childrenChanged() {
-        children = stage.getActors().size;
     }
 
     private void refreshViewport() {
@@ -128,6 +126,17 @@ public class StageGetter {
         for (int i = 0; i < names.length; i++) {
             values[i] = EasyReflect.getValue(names[i], obj);
         }
+    }
+
+    static IntArray getChildrens(Group root) {
+        IntArray array = new IntArray();
+        for (Actor actor : root.getChildren()) {
+            array.add(actor.hashCode());
+            if (actor instanceof Group) {
+                array.addAll(getChildrens(root));
+            }
+        }
+        return array;
     }
 
     static String getName(Object obj) {

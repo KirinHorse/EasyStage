@@ -32,6 +32,7 @@ public class StageWindow extends Window {
     public void setStageBean(StageBean bean) {
         if (bean == null) return;
         this.stageBean = bean;
+        getTitleLabel().setText(bean.getName());
         creator.update(bean);
     }
 }

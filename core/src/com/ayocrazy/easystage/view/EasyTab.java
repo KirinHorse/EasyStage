@@ -13,6 +13,7 @@ public class EasyTab extends Table {
     private Array<Actor> actors;
 
     public EasyTab(Skin skin) {
+        super(skin);
 
     }
 
