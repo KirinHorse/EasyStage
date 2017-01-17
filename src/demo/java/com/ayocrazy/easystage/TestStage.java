@@ -1,4 +1,4 @@
-package test;
+package com.ayocrazy.easystage;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;

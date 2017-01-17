@@ -1,43 +1,49 @@
 buildscript {
     repositories {
-        mavenLocal()
-        mavenCentral()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        maven { url "https://jitpack.io/" }
         jcenter()
     }
-}
-
-allprojects {
-    apply plugin: "idea"
-
-    version = '1.0'
-    ext {
-        appName = "EasyStage"
-        gdxVersion = System.env.GDX_VERSION != null ? System.env.GDX_VERSION : '1.9.5'
-        roboVMVersion = '2.3.0'
-        box2DLightsVersion = '1.4'
-        ashleyVersion = '1.7.0'
-        aiVersion = '1.8.0'
-    }
-
-    repositories {
-        mavenLocal()
-        mavenCentral()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
-        maven { url "https://jitpack.io/" }
-    }
-}
-
-project(":core") {
-    apply plugin: "java"
 
     dependencies {
-        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-        compile "cglib:cglib:3.2.4"
-        compile "com.github.tianqiujie:nativefont:2.4.1"
+        classpath 'com.netflix.nebula:nebula-project-plugin:3.0.4'
     }
 }
+
+apply plugin: "idea"
+apply plugin: "java"
+apply plugin: 'nebula.facet'
+
+version = '1.0'
+ext {
+    appName = "EasyStage"
+    gdxVersion = System.env.GDX_VERSION != null ? System.env.GDX_VERSION : '1.9.5'
+    cglibVersion = '3.2.4'
+    nativefontVersion = '2.4.1'
+}
+
+repositories {
+    jcenter()
+    maven { url "https://jitpack.io/" }
+}
+
+dependencies {
+    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    compile "cglib:cglib:$cglibVersion"
+    compile "com.github.tianqiujie:nativefont:$nativefontVersion"
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_7
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+facets {
+    demo
+}
+task run(dependsOn: demoClasses, type: JavaExec) {
+    main = "com.ayocrazy.easystage.DesktopLauncher"
+    classpath = sourceSets.demo.runtimeClasspath
+    standardInput = System.in
+    workingDir = "$projectDir/src/demo/resources"
+    ignoreExitValue = true
+}
+
