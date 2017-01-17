@@ -33,6 +33,11 @@ public class StageSetter {
         System.out.println(obj.getClass().getSimpleName() + " " + fieldName + " " + methodName + " " + value);
         if (obj instanceof Viewport)
             return setViewport((Viewport) obj, fieldName, value);
+        else if (obj instanceof Actor) {
+            int result = setActor((Actor) obj, fieldName, value);
+            if (result == 1) return true;
+            else if (result == -1) return false;
+        }
         if (methodName == null || methodName.equals("")) {
             return EasyReflect.setValue(fieldName, obj, value);
         } else {
@@ -57,7 +62,7 @@ public class StageSetter {
                     updateViewport(vp, width, height);
                     stage.setViewport(vp);
                 } else return false;
-            } else if (fieldName.equals("Scaling")) {
+            } else if (fieldName.equals("scalling")) {
                 if (vp instanceof ScalingViewport) {
                     Scaling scaling = Scaling.valueOf((String) value);
                     if (scaling == null) return false;
@@ -75,6 +80,27 @@ public class StageSetter {
             return false;
         }
         return true;
+    }
+
+    private int setActor(Actor actor, String fieldName, Object value) {
+        try {
+            if (fieldName.equals("position")) {
+                actor.setPosition(EasyReflect.toFloat(value, 0), EasyReflect.toFloat(value, 1));
+            } else if (fieldName.equals("size")) {
+                actor.setSize(EasyReflect.toFloat(value, 0), EasyReflect.toFloat(value, 1));
+            } else if (fieldName.equals("scale")) {
+                actor.setScale(EasyReflect.toFloat(value, 0), EasyReflect.toFloat(value, 1));
+            } else if (fieldName.equals("origion")) {
+                actor.setOrigin(EasyReflect.toFloat(value, 0), EasyReflect.toFloat(value, 1));
+            } else if (fieldName.equals("rotation")) {
+                actor.setRotation(Float.parseFloat(value.toString()));
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
+            return -1;
+        }
+        return 1;
     }
 
     private void updateViewport(final Viewport vp, final int width, final int height) {

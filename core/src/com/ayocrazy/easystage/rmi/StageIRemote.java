@@ -1,7 +1,6 @@
 package com.ayocrazy.easystage.rmi;
 
 import com.ayocrazy.easystage.bean.ActorBean;
-import com.ayocrazy.easystage.bean.BaseBean;
 import com.ayocrazy.easystage.bean.StageBean;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -11,7 +10,6 @@ import com.badlogic.gdx.utils.IntMap;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.HashMap;
 
 /**
  * Created by ayo on 2017/1/10.
@@ -30,16 +28,13 @@ public class StageIRemote extends UnicastRemoteObject implements IRemote {
 
     private void actorGetters(Group group) {
         actorGetters.put(group.hashCode(), new ActorGetter(group, stageGetter));
-        System.out.print(group.hashCode() + "  ");
         for (Actor actor : group.getChildren()) {
             if (actor instanceof Group) {
                 actorGetters((Group) actor);
             } else {
                 actorGetters.put(actor.hashCode(), new ActorGetter(actor, stageGetter));
-                System.out.print(actor.hashCode() + "  ");
             }
         }
-        System.out.println();
     }
 
     @Override

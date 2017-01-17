@@ -75,4 +75,9 @@ public class EasySelectBox extends SelectBox<String> implements EasyUI {
         if (isShow) return;
         setSelected((String) value);
     }
+
+    @Override
+    public void setId(int id) {
+        objId = id;
+    }
 }

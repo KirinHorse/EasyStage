@@ -6,4 +6,6 @@ package com.ayocrazy.easystage.ui;
 
 public interface EasyUI {
     void updateValue(Object value);
+
+    void setId(int id);
 }

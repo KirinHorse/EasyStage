@@ -14,13 +14,17 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 public class ActorBean extends BaseBean {
     private String name;
+    @MetaText
     private int id, parentId;
     private int[] children;
     @MetaCheckBox
+    @MetaMethod
     private boolean visible, debug;
     @MetaSelectBox(enumClass = Touchable.class)
+    @MetaMethod
     private String touchable;
     @MetaVector(editable = true, size = 4, prefix = {'r', 'g', 'b', 'a'}, maxLength = 5)
+    @MetaMethod
     private float[] color;
     @MetaText(editable = true, filter = MetaText.Filter.PosINT)
     @MetaMethod

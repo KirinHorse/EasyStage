@@ -154,4 +154,9 @@ public class EasyTextField extends NativeTextField implements EasyUI {
     public static final TextFieldFilter getFilter(MetaText.Filter filter) {
         return filters.get(filter);
     }
+
+    @Override
+    public void setId(int id) {
+        objId = id;
+    }
 }

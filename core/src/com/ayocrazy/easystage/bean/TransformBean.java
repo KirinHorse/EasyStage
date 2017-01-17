@@ -1,5 +1,6 @@
 package com.ayocrazy.easystage.bean;
 
+import com.ayocrazy.easystage.uimeta.MetaMethod;
 import com.ayocrazy.easystage.uimeta.MetaText;
 import com.ayocrazy.easystage.uimeta.MetaVector;
 

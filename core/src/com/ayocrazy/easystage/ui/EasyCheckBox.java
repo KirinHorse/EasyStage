@@ -40,4 +40,9 @@ public class EasyCheckBox extends CheckBox implements EasyUI {
     public void updateValue(Object value) {
         setChecked((boolean) value);
     }
+
+    @Override
+    public void setId(int id) {
+        objId = id;
+    }
 }

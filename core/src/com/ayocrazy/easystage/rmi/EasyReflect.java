@@ -52,6 +52,10 @@ public class EasyReflect {
     }
 
     private static Object typeCast(Field field, Object obj, Object value) throws Exception {
+        return typeCast(field, obj, value, true);
+    }
+
+    private static Object typeCast(Field field, Object obj, Object value, boolean setValue) throws Exception {
         Class type = field.getType();
         if (type == int.class || type == Integer.class) {
             return Integer.parseInt(value.toString());
@@ -67,7 +71,7 @@ public class EasyReflect {
             return value.toString().charAt(0);
         } else if (type == Vector2.class) {
             Vector2 vec2 = (Vector2) field.get(obj);
-            if (vec2 == null)
+            if (vec2 == null || !setValue)
                 return new Vector2(toFloat(value, 0), toFloat(value, 1));
             else {
                 vec2.set(toFloat(value, 0), toFloat(value, 1));
@@ -75,7 +79,7 @@ public class EasyReflect {
             }
         } else if (type == Vector3.class) {
             Vector3 vec3 = (Vector3) field.get(obj);
-            if (vec3 == null)
+            if (vec3 == null || !setValue)
                 return new Vector3(toFloat(value, 0), toFloat(value, 1), toFloat(value, 2));
             else {
                 vec3.set(toFloat(value, 0), toFloat(value, 1), toFloat(value, 2));
@@ -83,7 +87,7 @@ public class EasyReflect {
             }
         } else if (type == Color.class) {
             Color color = (Color) field.get(obj);
-            if (color != null)
+            if (color == null || !setValue)
                 return new Color(toFloat(value, 0), toFloat(value, 1), toFloat(value, 2), toFloat(value, 3));
             else {
                 color.set(toFloat(value, 0), toFloat(value, 1), toFloat(value, 2), toFloat(value, 3));
@@ -113,10 +117,12 @@ public class EasyReflect {
     }
 
     static boolean invoke(String fieldName, String methodName, Object obj, Object value) {
+        Field field = getField(obj.getClass(), fieldName);
         Method method = getMethod(obj.getClass(), fieldName, methodName);
-        if (method == null) return false;
+        if (field == null || method == null) return false;
         try {
-            method.invoke(obj, value);
+            field.setAccessible(true);
+            method.invoke(obj, typeCast(field, obj, value, false));
         } catch (Exception e) {
             return false;
         }

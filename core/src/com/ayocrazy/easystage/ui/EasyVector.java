@@ -139,4 +139,9 @@ public class EasyVector extends Table implements EasyUI {
             }
         }
     }
+
+    @Override
+    public void setId(int id) {
+        objId = id;
+    }
 }
