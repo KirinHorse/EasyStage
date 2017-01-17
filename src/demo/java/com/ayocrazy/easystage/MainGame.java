@@ -1,4 +1,4 @@
-package test;
+package com.ayocrazy.easystage;
 
 import com.ayocrazy.easystage.Easy;
 import com.badlogic.gdx.ApplicationAdapter;

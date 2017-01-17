@@ -1,4 +1,4 @@
-package test;
+package com.ayocrazy.easystage;
 
 import com.ayocrazy.easystage.uimeta.MetaText;
 import com.badlogic.gdx.graphics.Texture;

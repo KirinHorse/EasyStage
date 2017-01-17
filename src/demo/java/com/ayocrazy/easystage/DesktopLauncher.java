@@ -1,4 +1,4 @@
-package test;
+package com.ayocrazy.easystage;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
