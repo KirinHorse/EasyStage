@@ -1,4 +1,7 @@
 # EasyStage
+
+[![Build Status](https://travis-ci.org/AyoCrazy/EasyStage.svg?branch=master)](https://travis-ci.org/AyoCrazy/EasyStage)
+
 [English](https://github.com/AyoCrazy/EasyStage/blob/master/README_EN.md)
 ### 一个Libgdx的Stage剖析工具，也可以作为一个轻量级UI编辑器。
 #### 已完善功能
