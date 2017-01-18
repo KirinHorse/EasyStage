@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-import net.sf.cglib.beans.BeanGenerator;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
@@ -40,11 +39,11 @@ public class StageHandler implements MethodInterceptor {
 
     void openWindow() {
         if (server == null) {
+            System.out.println("Serive is starting. ");
             server = new Server(stage);
         } else {
             server.setStage(stage);
         }
-        BeanGenerator gen = new BeanGenerator();
     }
 
     @Override
@@ -52,7 +51,6 @@ public class StageHandler implements MethodInterceptor {
 //        long startTime = System.currentTimeMillis();
         if (method.getName().equals("act") && args.length == 0) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.F6)) {
-                System.out.println("Serive is starting. ");
                 openWindow();
             }
         }

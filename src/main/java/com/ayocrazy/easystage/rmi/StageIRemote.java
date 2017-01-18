@@ -49,6 +49,11 @@ public class StageIRemote extends UnicastRemoteObject implements IRemote {
 
 
     public void setStage(Stage stage) {
+        if (stageGetter != null && stageGetter.stage == stage) return;
+        stageGetter = new StageGetter(stage);
+        stageSetter = new StageSetter(stageGetter);
+        actorGetters.clear();
+        actorGetters(stage.getRoot());
     }
 
     @Override

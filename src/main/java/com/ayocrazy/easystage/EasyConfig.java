@@ -5,6 +5,5 @@ package com.ayocrazy.easystage;
  */
 
 public class EasyConfig {
-    public int port;
-    public String url;
+    public static int port;
 }

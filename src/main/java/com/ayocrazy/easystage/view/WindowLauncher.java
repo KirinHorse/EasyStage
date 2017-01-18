@@ -1,5 +1,6 @@
 package com.ayocrazy.easystage.view;
 
+import com.ayocrazy.easystage.EasyConfig;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
@@ -11,6 +12,10 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 public class WindowLauncher {
     public static void main(String[] args) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        try {
+            EasyConfig.port = Integer.parseInt(args[0]);
+        } catch (Exception e) {
+        }
         config.initialBackgroundColor = Color.CLEAR;
         config.width = 1280;
         config.height = 720;

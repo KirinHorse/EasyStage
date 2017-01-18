@@ -1,5 +1,6 @@
 package com.ayocrazy.easystage.rmi;
 
+import com.ayocrazy.easystage.EasyConfig;
 import com.ayocrazy.easystage.bean.ActorBean;
 import com.ayocrazy.easystage.bean.StageBean;
 import com.ayocrazy.easystage.view.ActorTree;
@@ -19,6 +20,7 @@ import java.util.TimerTask;
 
 public class Client {
     private static Client instance;
+    private int port;
     private long retryInterval = 3000;
     private long queryInterval = 100;
     private Timer timer;
@@ -36,6 +38,9 @@ public class Client {
         this.actorTree = actorTree;
         this.actorWindow = actorWindow;
         timer = new Timer();
+        if (EasyConfig.port != 0) {
+            port = EasyConfig.port;
+        }
         start(0);
     }
 
@@ -54,7 +59,7 @@ public class Client {
             public void run() {
                 try {
                     log(EasyLog.Tag.info, "Trying to connect Server, please wait.");
-                    remote = (IRemote) Naming.lookup(Server.url);
+                    remote = (IRemote) Naming.lookup("rmi://localhost:" + port + "/IRemote");
                     log(EasyLog.Tag.info, "Server connected.");
                     loop();
                 } catch (Exception e) {
