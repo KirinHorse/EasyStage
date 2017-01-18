@@ -1,8 +1,6 @@
 package com.ayocrazy.easystage.handler;
 
-import com.ayocrazy.easystage.rmi.Server;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.ayocrazy.easystage.cover.CoverStage;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import net.sf.cglib.proxy.Enhancer;
@@ -16,8 +14,8 @@ import java.lang.reflect.Method;
  */
 
 public class StageHandler implements MethodInterceptor {
-    private static Server server;
     private Stage stage;
+    private CoverStage coverStage;
     private Enhancer enhancer = new Enhancer();
     private long actTime, drawTime;
 
@@ -33,28 +31,19 @@ public class StageHandler implements MethodInterceptor {
             }
             stage = (Stage) enhancer.create(argTypes, args);
         }
+        coverStage = new CoverStage(stage);
         return stage;
-    }
-
-
-    void openWindow() {
-        if (server == null) {
-            System.out.println("Serive is starting. ");
-            server = new Server(stage);
-        } else {
-            server.setStage(stage);
-        }
     }
 
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
 //        long startTime = System.currentTimeMillis();
-        if (method.getName().equals("act") && args.length == 0) {
-            if (Gdx.input.isKeyJustPressed(Input.Keys.F6)) {
-                openWindow();
-            }
-        }
         Object result = proxy.invokeSuper(obj, args);
+        if (method.getName().equals("act") && args.length == 1) {
+            coverStage.act(Float.parseFloat(args[0].toString()));
+        } else if (method.getName().equals("draw")) {
+            coverStage.draw();
+        }
 //        actTime += System.currentTimeMillis() - startTime;
         return result;
     }

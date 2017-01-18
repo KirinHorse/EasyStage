@@ -1,5 +1,6 @@
 package com.ayocrazy.easystage.rmi;
 
+import com.ayocrazy.easystage.cover.CoverStage;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.io.BufferedReader;
@@ -8,9 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.rmi.Naming;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 
 /**
  * Created by ayo on 2017/1/12.
@@ -18,17 +17,17 @@ import java.rmi.registry.Registry;
 
 public class Server implements Runnable {
     private int port = 9126;
-    private Registry registry;
     private String url;
     private Thread ServerThread;
     private Process process;
+    private BufferedReader reader;
     private Stage stage;
     private StageIRemote stageRemote;
-    private boolean started;
+    private CoverStage coverStage;
 
-
-    public Server(Stage stage) {
+    public Server(Stage stage, CoverStage coverStage) {
         this.stage = stage;
+        this.coverStage = coverStage;
         ServerThread = new Thread(this);
         ServerThread.start();
     }
@@ -36,6 +35,38 @@ public class Server implements Runnable {
     public void setStage(Stage stage) {
         this.stage = stage;
         stageRemote.setStage(stage);
+    }
+
+    public void reopen() {
+        try {
+            if (reader != null) reader.close();
+            ServerThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String[] cmds = {"java", "-Dfile.encoding=UTF-8", "-classpath",
+                            System.getProperty("java.class.path"),
+                            "com.ayocrazy.easystage.view.WindowLauncher", Integer.toString(port)
+                    };
+                    try {
+                        process = Runtime.getRuntime().exec(cmds);
+                        InputStream is = process.getErrorStream();
+                        reader = new BufferedReader(new InputStreamReader(is));
+                        while (true) {
+                            String text = reader.readLine();
+                            if (text == null) {
+                                return;
+                            }
+                            System.err.println(text);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            ServerThread.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -52,46 +83,15 @@ public class Server implements Runnable {
             }
             try {
                 url = "rmi://localhost:" + port + "/IRemote";
-                registry = LocateRegistry.createRegistry(port);
+                LocateRegistry.createRegistry(port);
                 Naming.rebind(url, stageRemote = new StageIRemote(stage));
-                System.out.println("Server started, listen: " + port);
+                coverStage.showInfo("Server started, listen: " + port);
             } catch (Exception e) {
-                System.out.println("Server failed");
+                coverStage.showInfo("Start server failed");
                 e.printStackTrace();
                 return;
             }
-            started = true;
-            String[] cmds = {"java", "-Dfile.encoding=UTF-8", "-classpath",
-                    System.getProperty("java.class.path"),
-                    "com.ayocrazy.easystage.view.WindowLauncher", Integer.toString(port)
-            };
-            process = Runtime.getRuntime().exec(cmds);
-            InputStream is = process.getErrorStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            while (started) {
-                try {
-                    String text = reader.readLine();
-                    if (text == null) {
-                        started = false;
-                        return;
-                    }
-                    System.err.println(text);
-                } catch (Exception e) {
-                    started = false;
-                    e.printStackTrace();
-                }
-            }
-            Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        started = false;
-                        process.getOutputStream().write("\n".getBytes());
-                        process.getOutputStream().flush();
-                    } catch (Exception e) {
-                    }
-                }
-            }));
+            reopen();
         } catch (Exception e) {
             e.printStackTrace();
         }
