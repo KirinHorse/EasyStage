@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 
+import org.lwjgl.input.Mouse;
+
 /**
  * Created by 26286 on 2017/1/17.
  */
@@ -51,10 +53,12 @@ public class EasyWindow extends Window {
                     if (current != topDown)
                         Gdx.graphics.setCursor(current = topDown);
                 } else {
-                    System.out.println("esle" + index++);
                     if (current != null) {
                         current = null;
-                        Gdx.graphics.setSystemCursor(null);
+                        try {
+                            Mouse.setNativeCursor(null);
+                        } catch (Exception e) {
+                        }
                     }
                 }
                 return true;
