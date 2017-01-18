@@ -35,8 +35,6 @@ public class EasyWindow extends Window {
         }
     }
 
-    int index = 0;
-
     private void initListener() {
         addListener(new InputListener() {
             private Cursor current;
@@ -68,7 +66,10 @@ public class EasyWindow extends Window {
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 if (current != null) {
                     current = null;
-                    Gdx.graphics.setSystemCursor(null);
+                    try {
+                        Mouse.setNativeCursor(null);
+                    } catch (Exception e) {
+                    }
                 }
             }
         });
