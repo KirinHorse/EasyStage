@@ -33,6 +33,8 @@ public class EasyWindow extends Window {
         }
     }
 
+    int index = 0;
+
     private void initListener() {
         addListener(new InputListener() {
             private Cursor current;
@@ -49,6 +51,7 @@ public class EasyWindow extends Window {
                     if (current != topDown)
                         Gdx.graphics.setCursor(current = topDown);
                 } else {
+                    System.out.println("esle" + index++);
                     if (current != null) {
                         current = null;
                         Gdx.graphics.setSystemCursor(null);
@@ -75,16 +78,16 @@ public class EasyWindow extends Window {
         Pixmap lr = new Pixmap(Gdx.files.internal("skin/cursor.png"));
         int width = lr.getWidth(), height = lr.getWidth();
         Pixmap td = new Pixmap(width, height, Pixmap.Format.RGBA8888);
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
+        for (int i = 0; i <= width; i++) {
+            for (int j = 0; j <= height; j++) {
                 td.drawPixel(i, j, lr.getPixel(j, i));
             }
         }
         Pixmap al = new Pixmap(width, height, Pixmap.Format.RGBA8888);
         al.drawPixmap(lr, 0, 0);
         al.drawPixmap(td, 0, 0);
-        leftRight = new LwjglCursor(lr, width / 2, height / 2);
-        topDown = new LwjglCursor(td, width / 2, height / 2);
-        all = new LwjglCursor(al, width / 2, height / 2);
+        leftRight = Gdx.graphics.newCursor(lr, width / 2, height / 2);
+        topDown = Gdx.graphics.newCursor(td, width / 2, height / 2);
+        all = Gdx.graphics.newCursor(al, width / 2, height / 2);
     }
 }
