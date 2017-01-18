@@ -35,8 +35,7 @@ public class EasyLog extends EasyWindow {
         vg = new VerticalGroup();
         vg.pad(2, 2, 20, 20);
         vg.align(Align.topLeft);
-        // TODO: 2017/1/18  if gdx version >=1.95
-//        vg.columnLeft();
+        vg.columnLeft();
         getScrollPane().setWidget(vg);
         instance = this;
     }
