@@ -107,7 +107,7 @@ public class StageSetter {
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
-                vp.update(width, height);
+                vp.update(width, height, true);
             }
         });
     }
