@@ -1,7 +1,9 @@
 package com.ayocrazy.easystage.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.backends.lwjgl.LwjglCursor;
 import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -15,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 
 public class EasyWindow extends Window {
     private ScrollPane scrollPane;
+    private static Cursor topDown, leftRight, upleftrightdown, leftdownupright, all;
 
     public EasyWindow(String title, Skin skin) {
         super(title, skin);
@@ -25,39 +28,63 @@ public class EasyWindow extends Window {
         setResizable(true);
         setResizeBorder(5);
         initListener();
+        if (topDown == null) {
+            createCursor();
+        }
     }
 
     private void initListener() {
         addListener(new InputListener() {
-            private Cursor.SystemCursor current;
+            private Cursor current;
 
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
                 if (y >= getHeight() - getTitleTable().getHeight()) {
-                    if (current != Cursor.SystemCursor.Arrow)
-                        Gdx.graphics.setSystemCursor(current = Cursor.SystemCursor.Arrow);
+                    if (current != all)
+                        Gdx.graphics.setCursor(current = all);
                 } else if ((x <= 6 && x > 1) || x >= getWidth() - 5) {
-                    if (current != Cursor.SystemCursor.HorizontalResize)
-                        Gdx.graphics.setSystemCursor(current = Cursor.SystemCursor.HorizontalResize);
+                    if (current != leftRight)
+                        Gdx.graphics.setCursor(current = leftRight);
                 } else if (y <= 5 && y > 0) {
-                    if (current != Cursor.SystemCursor.VerticalResize)
-                        Gdx.graphics.setSystemCursor(current = Cursor.SystemCursor.VerticalResize);
+                    if (current != topDown)
+                        Gdx.graphics.setCursor(current = topDown);
                 } else {
-                    if (current != Cursor.SystemCursor.Arrow)
-                        Gdx.graphics.setSystemCursor(current = Cursor.SystemCursor.Arrow);
+                    if (current != null) {
+                        current = null;
+                        Gdx.graphics.setSystemCursor(null);
+                    }
                 }
                 return true;
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                if (current != Cursor.SystemCursor.Arrow)
-                    Gdx.graphics.setSystemCursor(current = Cursor.SystemCursor.Arrow);
+                if (current != null) {
+                    current = null;
+                    Gdx.graphics.setSystemCursor(null);
+                }
             }
         });
     }
 
     public ScrollPane getScrollPane() {
         return scrollPane;
+    }
+
+    private void createCursor() {
+        Pixmap lr = new Pixmap(Gdx.files.internal("skin/cursor.png"));
+        int width = lr.getWidth(), height = lr.getWidth();
+        Pixmap td = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                td.drawPixel(i, j, lr.getPixel(j, i));
+            }
+        }
+        Pixmap al = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+        al.drawPixmap(lr, 0, 0);
+        al.drawPixmap(td, 0, 0);
+        leftRight = new LwjglCursor(lr, width / 2, height / 2);
+        topDown = new LwjglCursor(td, width / 2, height / 2);
+        all = new LwjglCursor(al, width / 2, height / 2);
     }
 }
