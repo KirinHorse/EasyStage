@@ -51,3 +51,11 @@ task wrapper(type: Wrapper) {
     gradleVersion = '3.3'
 }
 
+idea {
+    module {
+        [".gradle",".idea","build"].each {
+            excludeDirs += file("$it")
+        }
+    }
+}
+
