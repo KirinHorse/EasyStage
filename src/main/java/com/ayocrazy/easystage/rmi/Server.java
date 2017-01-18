@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
@@ -15,7 +16,7 @@ import java.rmi.registry.LocateRegistry;
  * Created by ayo on 2017/1/12.
  */
 
-public class Server implements Runnable {
+public class Server {
     private int port = 9126;
     private String url;
     private Thread ServerThread;
@@ -28,7 +29,12 @@ public class Server implements Runnable {
     public Server(Stage stage, CoverStage coverStage) {
         this.stage = stage;
         this.coverStage = coverStage;
-        ServerThread = new Thread(this);
+        ServerThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                startServer();
+            }
+        });
         ServerThread.start();
     }
 
@@ -69,18 +75,11 @@ public class Server implements Runnable {
         }
     }
 
-    @Override
-    public void run() {
+    public void startServer() {
         try {
-            while (true) {
-                try {
-                    Socket socket = new Socket("localhost", port);
-                    socket.close();
-                    port++;
-                } catch (IOException e) {
-                    break;
-                }
-            }
+            ServerSocket serverSocket = new ServerSocket(0);
+            port = serverSocket.getLocalPort();
+            serverSocket.close();
             try {
                 url = "rmi://localhost:" + port + "/IRemote";
                 LocateRegistry.createRegistry(port);
