@@ -3,7 +3,6 @@ package com.ayocrazy.easystage.cover;
 import com.ayocrazy.easystage.rmi.Server;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
@@ -27,8 +26,9 @@ public class CoverStage extends Stage {
     private Skin skin;
     private Message message;
     private Info info;
-    private boolean paused;
+    private CursorPos cursorPos;
     private TimeManager timeManager;
+    private boolean paused;
 
     public CoverStage(Stage gameStage) {
         super(new ScreenViewport());
@@ -44,6 +44,7 @@ public class CoverStage extends Stage {
         timeManager = new TimeManager();
         info = new Info(skin, timeManager, gameStage.getBatch());
         message = new Message(skin);
+        cursorPos = new CursorPos(skin, gameStage);
         showMessage("Press F6 to start EasyStage tool");
     }
 
@@ -86,6 +87,7 @@ public class CoverStage extends Stage {
             server.reopen();
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.F2)) {
             paused = !paused;
+            info.getTitleLabel().setText(paused ? "status(paused)" : "status");
         } else if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
                 if (info.getParent() != null) info.remove();
@@ -94,6 +96,9 @@ public class CoverStage extends Stage {
                 gameStage.setDebugAll(!gameStage.getRoot().getDebug());
             }
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.ALT_LEFT)) {
+            if (cursorPos.getStage() == null) addActor(cursorPos);
+        } else if (cursorPos.getStage() != null) cursorPos.remove();
     }
 
     public void showMessage(String text) {
