@@ -16,6 +16,9 @@ MyStage myStage = Easy.newStage(MyStage.class);
 F5  重新打开工具<br/>
 F2  游戏暂停/恢复<br/>
 Alt 显示当前坐标<br/>
+Alt+1 复制当前坐标<br/>
+Shift 显示当前颜色<br/>
+Shift+1 复制当前颜色<br/>
 Ctrl+D 显示/关闭debug包围框<br/>
 Ctrl+I 显示/关闭Stage信息
 
