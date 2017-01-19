@@ -4,11 +4,9 @@ import com.ayocrazy.easystage.cover.CoverStage;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
 
@@ -84,9 +82,9 @@ public class Server {
                 url = "rmi://localhost:" + port + "/IRemote";
                 LocateRegistry.createRegistry(port);
                 Naming.rebind(url, stageRemote = new StageIRemote(stage));
-                coverStage.showInfo("Server started, listen: " + port);
+                coverStage.showMessage("Server started, listen: " + port);
             } catch (Exception e) {
-                coverStage.showInfo("Start server failed");
+                coverStage.showMessage("Start server failed");
                 e.printStackTrace();
                 return;
             }

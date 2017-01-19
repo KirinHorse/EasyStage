@@ -38,11 +38,13 @@ public class StageHandler implements MethodInterceptor {
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
 //        long startTime = System.currentTimeMillis();
-        Object result = proxy.invokeSuper(obj, args);
+        Object result = null;
         if (method.getName().equals("act") && args.length == 1) {
-            coverStage.act(Float.parseFloat(args[0].toString()));
+            coverStage.invokeAct(proxy, obj, args);
         } else if (method.getName().equals("draw")) {
-            coverStage.draw();
+            coverStage.invokeDraw(proxy, obj, args);
+        } else {
+            result = proxy.invokeSuper(obj, args);
         }
 //        actTime += System.currentTimeMillis() - startTime;
         return result;
