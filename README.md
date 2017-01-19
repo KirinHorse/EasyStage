@@ -8,6 +8,11 @@
 * 运行时查看、修改Stage基础属性和自定义属性
 * 显示Actors列表
 * 运行时实时查看并修改Actors的属性
+* 游戏中统计Stage信息
+
+### 截图：
+![status](https://www.ayocrazy.com/wp-content/uploads/2017/01/status.jpg)
+![editor](https://www.ayocrazy.com/wp-content/uploads/2017/01/editor.png)
 
 #### 正在开发功能
 * 保存修改后的属性到json文件
