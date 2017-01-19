@@ -26,7 +26,7 @@ public class CoverStage extends Stage {
     private Skin skin;
     private Message message;
     private Info info;
-    private CursorPos cursorPos;
+    private CursorInfo cursorInfo;
     private TimeManager timeManager;
     private boolean paused;
 
@@ -44,7 +44,7 @@ public class CoverStage extends Stage {
         timeManager = new TimeManager();
         info = new Info(skin, timeManager, gameStage.getBatch());
         message = new Message(skin);
-        cursorPos = new CursorPos(skin, gameStage);
+        cursorInfo = new CursorInfo(skin, gameStage);
         showMessage("Press F6 to start EasyStage tool");
     }
 
@@ -97,8 +97,16 @@ public class CoverStage extends Stage {
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.ALT_LEFT)) {
-            if (cursorPos.getStage() == null) addActor(cursorPos);
-        } else if (cursorPos.getStage() != null) cursorPos.remove();
+            if (cursorInfo.getStage() == null) {
+                addActor(cursorInfo);
+                cursorInfo.setType(CursorInfo.Type.pos);
+            }
+        } else if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+            if (cursorInfo.getStage() == null) {
+                addActor(cursorInfo);
+                cursorInfo.setType(CursorInfo.Type.color);
+            }
+        } else if (cursorInfo.getStage() != null) cursorInfo.remove();
     }
 
     public void showMessage(String text) {
