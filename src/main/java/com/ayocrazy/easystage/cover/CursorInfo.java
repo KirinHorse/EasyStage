@@ -40,10 +40,9 @@ public class CursorInfo extends Group {
     public CursorInfo(Skin skin, Stage gameStage) {
         this.gameStage = gameStage;
         bg = new Image(skin.getDrawable("textfield"));
-        bg.setColor(1, 1, 1, 0.65f);
+        bg.setColor(1, 1, 1, 0.75f);
         imgColor = getImage(15, 10, Color.WHITE);
         lab = new NativeLabel("", skin.get(Label.LabelStyle.class));
-        lab.setColor(1, 1, 1, 0.85f);
         addActor(bg);
         addActor(lab);
     }
@@ -88,7 +87,8 @@ public class CursorInfo extends Group {
 
     private void updateColor() {
         tempPos.set(Gdx.input.getX(), Gdx.input.getY());
-        Gdx.gl.glReadPixels(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), 1, 1, GL20.GL_RGBA, GL20.GL_UNSIGNED_BYTE, buffer);
+        Gdx.gl.glReadPixels(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(),
+                1, 1, GL20.GL_RGBA, GL20.GL_UNSIGNED_BYTE, buffer);
         color.set((buffer.get(0) & 255) / 255f, (buffer.get(1) & 255) / 255f,
                 (buffer.get(2) & 255) / 255f, (buffer.get(3) & 255) / 255f);
         imgColor.setColor(color);
@@ -118,7 +118,7 @@ public class CursorInfo extends Group {
         this.type = type;
         if (type == Type.color) {
             addActor(imgColor);
-            lab.setText("#00000000");
+            lab.setText("#ABCDEFGH");
             lab.setSize(lab.getPrefWidth(), lab.getPrefHeight());
             imgColor.setWidth(lab.getWidth() - 10);
             imgColor.setPosition(lab.getX(Align.center), lab.getTop() + 5, Align.bottom);

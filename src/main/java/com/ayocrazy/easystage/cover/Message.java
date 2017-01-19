@@ -29,7 +29,7 @@ public class Message extends Group {
         bg = new Image(skin.getDrawable("textfield"));
         lab = new NativeLabel("", skin.get(Label.LabelStyle.class));
         setTouchable(Touchable.disabled);
-        setColor(1, 1, 1, 0.75f);
+        bg.setColor(1, 1, 1, 0.75f);
         addActor(bg);
         addActor(lab);
     }

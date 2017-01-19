@@ -61,6 +61,7 @@ public class CoverStage extends Stage {
     @Override
     public void act(float delta) {
         checkInput();
+        checkSizeChanged();
         super.act(delta);
     }
 
@@ -107,6 +108,12 @@ public class CoverStage extends Stage {
                 cursorInfo.setType(CursorInfo.Type.color);
             }
         } else if (cursorInfo.getStage() != null) cursorInfo.remove();
+    }
+
+    private void checkSizeChanged() {
+        if (Gdx.graphics.getWidth() != getWidth() || Gdx.graphics.getHeight() != getHeight()) {
+            getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+        }
     }
 
     public void showMessage(String text) {
