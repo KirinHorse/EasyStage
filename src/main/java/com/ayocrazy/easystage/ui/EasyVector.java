@@ -69,7 +69,7 @@ public class EasyVector extends Table implements EasyUI {
         }
     }
 
-    private Object[] getValues() {
+    private Object[] getValues(Object[] values) {
         int size = tfs.length;
         for (int i = 0; i < size; i++) {
             values[i] = tfs[i].getText();
@@ -96,9 +96,13 @@ public class EasyVector extends Table implements EasyUI {
                         });
                         return;
                     }
-                    Command.doCmd(new SetValueCommand(objId, fieldName, methodName, lastValues, getValues()));
+                    getValues(values);
+                    if (changed()) {
+                        Command.doCmd(new SetValueCommand(objId, fieldName, methodName,
+                                copyValues(lastValues), copyValues(values)));
+                    }
                 } else if (!inputError) {
-                    lastValues = getValues();
+                    getValues(lastValues);
                 }
             }
         };
@@ -125,6 +129,21 @@ public class EasyVector extends Table implements EasyUI {
                 return true;
             }
         };
+    }
+
+    private boolean changed() {
+        for (int i = 0; i < tfs.length; i++) {
+            if (!values[i].equals(lastValues[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Object[] copyValues(Object[] values) {
+        Object[] newValues = new Object[values.length];
+        System.arraycopy(values, 0, newValues, 0, values.length);
+        return newValues;
     }
 
     @Override

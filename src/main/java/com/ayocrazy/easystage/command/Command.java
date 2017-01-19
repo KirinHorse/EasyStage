@@ -7,6 +7,7 @@ import java.util.Stack;
  */
 
 public abstract class Command {
+    private static int maxCmds = 50;
     protected static final Stack<Command> cmds = new Stack<>();
     private static int index = -1;
 
@@ -16,7 +17,9 @@ public abstract class Command {
         }
         cmd.exe();
         cmds.push(cmd);
-        index++;
+        if (index >= maxCmds) {
+            cmds.remove(cmds.firstElement());
+        } else index++;
     }
 
     public static void redo() {

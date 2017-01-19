@@ -1,7 +1,9 @@
 package com.ayocrazy.easystage.view;
 
+import com.ayocrazy.easystage.command.Command;
 import com.ayocrazy.easystage.rmi.Client;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -41,7 +43,6 @@ public class MainStage extends Stage {
         instance = this;
 //        setDebugAll(true);
         initSkin();
-
         final TextButton stop = new TextButton("stop", skin);
         stop.addListener(new ClickListener() {
             @Override
@@ -94,6 +95,24 @@ public class MainStage extends Stage {
 
     public void resize(int width, int height) {
         getViewport().update(width, height);
+    }
+
+    @Override
+    public void act(float delta) {
+        checkInput();
+        super.act(delta);
+    }
+
+    private void checkInput() {
+        if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
+                setKeyboardFocus(null);
+                Command.undo();
+            } else if (Gdx.input.isKeyJustPressed(Input.Keys.Y)) {
+                Command.redo();
+                setKeyboardFocus(null);
+            }
+        }
     }
 
     @Override
