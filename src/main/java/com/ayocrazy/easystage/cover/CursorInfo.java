@@ -89,8 +89,8 @@ public class CursorInfo extends Group {
     private void updateColor() {
         tempPos.set(Gdx.input.getX(), Gdx.input.getY());
         Gdx.gl.glReadPixels(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), 1, 1, GL20.GL_RGBA, GL20.GL_UNSIGNED_BYTE, buffer);
-        color.set(Byte.toUnsignedInt(buffer.get(0)) / 255f, Byte.toUnsignedInt(buffer.get(1)) / 255f,
-                Byte.toUnsignedInt(buffer.get(2)) / 255f, Byte.toUnsignedInt(buffer.get(3)) / 255f);
+        color.set((buffer.get(0) & 255) / 255f, (buffer.get(1) & 255) / 255f,
+                (buffer.get(2) & 255) / 255f, (buffer.get(3) & 255) / 255f);
         imgColor.setColor(color);
         lab.setText(HASH + Integer.toHexString(color.toIntBits()).toUpperCase());
         setPos();
