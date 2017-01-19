@@ -80,7 +80,8 @@ public class LibgdxRunner extends BlockJUnit4ClassRunner {
     @Override
     protected void runChild(final FrameworkMethod method, final RunNotifier notifier) {
         final Description description = describeChild(method);
-        if (description.getAnnotation(NeedGL.class) != null) {
+        if (method.getDeclaringClass().getAnnotation(NeedGL.class) != null ||
+                description.getAnnotation(NeedGL.class) != null) {
             final AtomicBoolean running = new AtomicBoolean(true);
             Gdx.app.postRunnable(new Runnable() {
                 @Override
