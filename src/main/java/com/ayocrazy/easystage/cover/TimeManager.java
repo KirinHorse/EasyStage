@@ -18,6 +18,7 @@ public class TimeManager {
         actTotal += System.nanoTime() - actStart;
         if (++index >= 60) {
             actTime = actTotal / index / 10000 / 100f;
+            actTotal = 0;
         }
     }
 
@@ -29,6 +30,7 @@ public class TimeManager {
         drawTotal += System.nanoTime() - drawStart;
         if (index >= 60) {
             drawTime = drawTotal / index / 10000 / 100f;
+            drawTotal = 0;
             index = 0;
         }
     }
