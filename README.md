@@ -12,14 +12,14 @@ MyStage myStage = Easy.newStage(MyStage.class);
 桌面运行游戏时按F6键，即可调取工具。
 
 全部快捷键：
-> F6  启动服务并打开工具<br/>
-F5  重新打开工具<br/>
-F2  游戏暂停/恢复<br/>
-Alt 显示当前坐标<br/>
-Alt+1 复制当前坐标<br/>
-Shift 显示当前颜色<br/>
-Shift+1 复制当前颜色<br/>
-Ctrl+D 显示/关闭debug包围框<br/>
+> F6  启动服务并打开工具  
+F5  重新打开工具  
+F2  游戏暂停/恢复  
+Alt 显示当前坐标  
+Alt+1 复制当前坐标  
+Shift 显示当前颜色  
+Shift+1 复制当前颜色  
+Ctrl+D 显示/关闭debug包围框  
 Ctrl+I 显示/关闭Stage信息
 
 
@@ -41,7 +41,6 @@ Ctrl+I 显示/关闭Stage信息
 * 拖拽Actors来对其进行基础变换
 * Stage性能分析，并生成时间曲线
 
-##### 特别感谢[@htynkn](https://github.com/htynkn)为项目构建、编译、测试提供的技术支持，主页：[夜明的孤行灯](https://www.huangyunkun.com)
-
-
-最后，欢迎加入！
+#### 特别感谢<a href="https://github.com/htynkn" target="blank">@htynkn</a>为项目构建、编译、测试提供的技术支持，主页：<a href ="https://www.huangyunkun.com" target="blank">夜明的孤行灯</a>  
+  
+#### 最后，欢迎加入！
