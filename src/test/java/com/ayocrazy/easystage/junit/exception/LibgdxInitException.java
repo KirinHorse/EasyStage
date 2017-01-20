@@ -1,0 +1,7 @@
+package com.ayocrazy.easystage.junit.exception;
+
+public class LibgdxInitException extends RuntimeException {
+    public LibgdxInitException(Throwable cause) {
+        super("Libgdx application init failed", cause);
+    }
+}
