@@ -41,5 +41,7 @@ Ctrl+I 显示/关闭Stage信息
 * 拖拽Actors来对其进行基础变换
 * Stage性能分析，并生成时间曲线
 
+##### 特别感谢[@htynkn](https://github.com/htynkn)为项目构建、编译、测试提供的技术支持，主页：[夜明的孤行灯](https://www.huangyunkun.com)
+
 
 最后，欢迎加入！
