@@ -70,11 +70,18 @@ idea {
 jar {
     manifest {
         attributes "Manifest-Version": version;
-        attributes "Main-Class": "com.ayocrazy.easystage.view.WindowLauncher"
     }
 }
 
-install {
+task packSources(type: Jar) {
+    classifier = "sources"
+    doFirst {
+        from files(sourceSets.main.allJava)
+    }
+}
 
+artifacts {
+    archives jar
+    archives packSources
 }
 
