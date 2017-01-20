@@ -17,7 +17,6 @@ public class StageHandler implements MethodInterceptor {
     private Stage stage;
     private CoverStage coverStage;
     private Enhancer enhancer = new Enhancer();
-    private long actTime, drawTime;
 
     public Stage newStage(Class<? extends Stage> clazz, Object... args) {
         enhancer.setSuperclass(clazz);
@@ -37,7 +36,6 @@ public class StageHandler implements MethodInterceptor {
 
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-//        long startTime = System.currentTimeMillis();
         Object result = null;
         if (method.getName().equals("act") && args.length == 1) {
             coverStage.invokeAct(proxy, obj, args);
@@ -46,7 +44,6 @@ public class StageHandler implements MethodInterceptor {
         } else {
             result = proxy.invokeSuper(obj, args);
         }
-//        actTime += System.currentTimeMillis() - startTime;
         return result;
     }
 }

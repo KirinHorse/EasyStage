@@ -1,7 +1,6 @@
 package com.ayocrazy.easystage.cover;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -13,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Queue;
 
-import net.mwplay.nativefont.NativeFont;
 import net.mwplay.nativefont.NativeLabel;
 
 /**
@@ -29,7 +27,7 @@ public class Message extends Group {
         bg = new Image(skin.getDrawable("textfield"));
         lab = new NativeLabel("", skin.get(Label.LabelStyle.class));
         setTouchable(Touchable.disabled);
-        bg.setColor(1, 1, 1, 0.75f);
+        bg.setColor(1, 1, 1, 0.8f);
         addActor(bg);
         addActor(lab);
     }
@@ -37,12 +35,9 @@ public class Message extends Group {
     void show(String text, Stage stage) {
         Runnable run = showRun(text, stage);
         if (queue.size == 0) {
-            queue.addLast(run);
             Gdx.app.postRunnable(run);
-        } else {
-            queue.addLast(showRun(text, stage));
         }
-
+        queue.addLast(run);
     }
 
     private Runnable showRun(final String text, final Stage stage) {

@@ -15,12 +15,12 @@ apply plugin: 'jacoco'
 apply plugin: 'nebula.facet'
 
 group = 'com.github.ayocrazy'
-version = '0.0.1-snapshot'
+version = '0.0.1'
 ext {
     appName = "EasyStage"
     gdxVersion = System.env.GDX_VERSION != null ? System.env.GDX_VERSION : '1.9.5'
     cglibVersion = '3.2.4'
-    nativefontVersion = '2.4.2'
+    nativefontVersion = '2.4.1'
 }
 
 repositories {
@@ -68,7 +68,10 @@ idea {
 }
 
 jar {
-
+    manifest {
+        attributes "Manifest-Version": version;
+        attributes "Main-Class": "com.ayocrazy.easystage.view.WindowLauncher"
+    }
 }
 
 install {

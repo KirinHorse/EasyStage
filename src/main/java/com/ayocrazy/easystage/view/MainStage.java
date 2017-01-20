@@ -81,16 +81,11 @@ public class MainStage extends Stage {
         font = new NativeFont(new NativeFontPaint(15));
 //        font.setSize(15);
         skin.add("default", font, BitmapFont.class);
-        TextField.TextFieldStyle style = skin.get(TextField.TextFieldStyle.class);
-        style.font = font;
-        TextButton.TextButtonStyle tbStyle = skin.get(TextButton.TextButtonStyle.class);
-        tbStyle.font = font;
-        Label.LabelStyle labStyle = skin.get(Label.LabelStyle.class);
-        labStyle.font = font;
-        SelectBox.SelectBoxStyle sbStyle = skin.get(SelectBox.SelectBoxStyle.class);
-        sbStyle.font = font;
-        CheckBox.CheckBoxStyle cbStyle = skin.get(CheckBox.CheckBoxStyle.class);
-        cbStyle.font = font;
+        skin.get(TextField.TextFieldStyle.class).font = font;
+        skin.get(TextButton.TextButtonStyle.class).font = font;
+        skin.get(Label.LabelStyle.class).font = font;
+        skin.get(SelectBox.SelectBoxStyle.class).font = font;
+        skin.get(CheckBox.CheckBoxStyle.class).font = font;
     }
 
     public void resize(int width, int height) {

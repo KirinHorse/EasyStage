@@ -36,8 +36,10 @@ public class ActorTree extends Tree {
             public void changed(ChangeEvent event, Actor actor) {
                 last = getSelection().getLastSelected();
                 if (last == null) return;
-                ActorBean bean = (ActorBean) last.getObject();
-                Client.get().setCurrentActor(bean);
+                Object obj = last.getObject();
+                if (obj instanceof ActorBean) {
+                    Client.get().setCurrentActor((ActorBean) obj);
+                }
             }
         });
     }
@@ -69,10 +71,10 @@ public class ActorTree extends Tree {
             public void run() {
                 addNodes(null, beans.get(stage.getRoot()));
                 if (last == null) return;
-                try {
+                Object obj = last.getObject();
+                if (obj != null) {
                     Node node = findNode(last.getObject());
                     node.expandTo();
-                } catch (Exception e) {
                 }
             }
         });

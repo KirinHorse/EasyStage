@@ -25,7 +25,7 @@ public class CoverStage extends Stage {
     private Stage gameStage;
     private Skin skin;
     private Message message;
-    private Info info;
+    private StageInfo stageInfo;
     private CursorInfo cursorInfo;
     private TimeManager timeManager;
     private boolean paused;
@@ -42,7 +42,7 @@ public class CoverStage extends Stage {
         skin.get(SelectBox.SelectBoxStyle.class).font = font;
 
         timeManager = new TimeManager();
-        info = new Info(skin, timeManager, gameStage.getBatch());
+        stageInfo = new StageInfo(skin, timeManager, gameStage.getBatch());
         message = new Message(skin);
         cursorInfo = new CursorInfo(skin, gameStage);
         showMessage("Press F6 to start EasyStage tool");
@@ -85,14 +85,15 @@ public class CoverStage extends Stage {
         if (Gdx.input.isKeyJustPressed(Input.Keys.F6)) {
             startServer();
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.F5)) {
-            server.reopen();
+            if (server != null) server.reopen();
+            else showMessage("Server has not bean started, press F6 to start server");
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.F2)) {
             paused = !paused;
-            info.getTitleLabel().setText(paused ? "status(paused)" : "status");
+            stageInfo.getTitleLabel().setText(paused ? "status(paused)" : "status");
         } else if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
-                if (info.getParent() != null) info.remove();
-                else addActor(info);
+                if (stageInfo.getParent() != null) stageInfo.remove();
+                else addActor(stageInfo);
             } else if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
                 gameStage.setDebugAll(!gameStage.getRoot().getDebug());
             }

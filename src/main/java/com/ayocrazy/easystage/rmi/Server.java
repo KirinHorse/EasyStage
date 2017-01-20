@@ -43,7 +43,7 @@ public class Server {
 
     public void reopen() {
         try {
-            if (reader != null) reader.close();
+            if (ServerThread != null && ServerThread.isAlive()) ServerThread.interrupt();
             ServerThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -56,11 +56,19 @@ public class Server {
                         InputStream is = process.getErrorStream();
                         reader = new BufferedReader(new InputStreamReader(is));
                         while (true) {
-                            String text = reader.readLine();
-                            if (text == null) {
-                                return;
+                            if (reader.ready()) {
+                                String text = reader.readLine();
+                                if (text == null) {
+                                    return;
+                                }
+                                System.err.println(text);
+                            } else {
+                                try {
+                                    Thread.sleep(800);
+                                } catch (InterruptedException e) {
+                                    break;
+                                }
                             }
-                            System.err.println(text);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

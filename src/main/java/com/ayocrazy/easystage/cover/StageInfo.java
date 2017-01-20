@@ -14,14 +14,14 @@ import net.mwplay.nativefont.NativeLabel;
  * Created by ayo on 2017/1/19.
  */
 
-public class Info extends Window {
+public class StageInfo extends Window {
     private static String MB = " mb";
     private static String MS = " ms";
     private TimeManager timeManager;
     private Batch batch;
     private NativeLabel labFps, labDrawCall, labRendererTime, labActTime, labDrawTime, labJheap;
 
-    public Info(Skin skin, TimeManager timeManager, Batch batch) {
+    public StageInfo(Skin skin, TimeManager timeManager, Batch batch) {
         super("Status", skin);
         this.timeManager = timeManager;
         this.batch = batch;
