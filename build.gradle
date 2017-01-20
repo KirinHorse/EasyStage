@@ -10,9 +10,11 @@ buildscript {
 
 apply plugin: "idea"
 apply plugin: "java"
+apply plugin: "maven"
 apply plugin: 'jacoco'
 apply plugin: 'nebula.facet'
 
+group = 'com.github.ayocrazy'
 version = '1.0'
 ext {
     appName = "EasyStage"
@@ -63,5 +65,13 @@ idea {
             excludeDirs += file("$it")
         }
     }
+}
+
+jar {
+
+}
+
+install {
+    
 }
 
