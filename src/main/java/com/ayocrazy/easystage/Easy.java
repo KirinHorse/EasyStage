@@ -1,6 +1,8 @@
 package com.ayocrazy.easystage;
 
 import com.ayocrazy.easystage.handler.StageHandler;
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
@@ -10,7 +12,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class Easy {
     public static final Stage newStage(Class<? extends Stage> clazz, Object... args) {
-        if (EasyConfig.disable) {
+        if (EasyConfig.disable || Gdx.app.getType() != Application.ApplicationType.Desktop) {
             Class argTypes[] = new Class[args.length];
             for (int i = 0; i < args.length; i++) {
                 argTypes[i] = args[i].getClass();
