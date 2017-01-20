@@ -2,8 +2,6 @@ package com.ayocrazy.easystage.view;
 
 import com.ayocrazy.easystage.bean.ActorBean;
 import com.ayocrazy.easystage.bean.StageBean;
-import com.ayocrazy.easystage.command.Command;
-import com.ayocrazy.easystage.command.SetValueCommand;
 import com.ayocrazy.easystage.rmi.Client;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
