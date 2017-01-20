@@ -75,9 +75,7 @@ jar {
 
 task packSources(type: Jar) {
     classifier = "sources"
-    doFirst {
-        from files(sourceSets.main.allJava)
-    }
+    from files(sourceSets.main.allJava)
 }
 
 artifacts {

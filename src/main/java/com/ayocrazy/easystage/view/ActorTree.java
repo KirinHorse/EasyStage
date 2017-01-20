@@ -56,7 +56,8 @@ public class ActorTree extends Tree {
         int children[] = actor.getChildren();
         for (int i = 0; i < children.length; i++) {
             ActorBean bean = beans.get(children[i]);
-            addNodes(node, bean);
+            if (bean != null)
+                addNodes(node, bean);
         }
     }
 
@@ -74,7 +75,7 @@ public class ActorTree extends Tree {
                 Object obj = last.getObject();
                 if (obj != null) {
                     Node node = findNode(last.getObject());
-                    node.expandTo();
+                    if (node != null) node.expandTo();
                 }
             }
         });
