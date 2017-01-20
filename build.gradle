@@ -15,7 +15,7 @@ apply plugin: 'jacoco'
 apply plugin: 'nebula.facet'
 
 group = 'com.github.ayocrazy'
-version = '0.0.1'
+version = '0.0.1-snapshot'
 ext {
     appName = "EasyStage"
     gdxVersion = System.env.GDX_VERSION != null ? System.env.GDX_VERSION : '1.9.5'
