@@ -5,5 +5,6 @@ package com.ayocrazy.easystage;
  */
 
 public class EasyConfig {
+    public static boolean disable;
     public static int port;
 }

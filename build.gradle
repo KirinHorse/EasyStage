@@ -15,12 +15,12 @@ apply plugin: 'jacoco'
 apply plugin: 'nebula.facet'
 
 group = 'com.github.ayocrazy'
-version = '1.0'
+version = '0.0.1'
 ext {
     appName = "EasyStage"
     gdxVersion = System.env.GDX_VERSION != null ? System.env.GDX_VERSION : '1.9.5'
     cglibVersion = '3.2.4'
-    nativefontVersion = '2.4.1'
+    nativefontVersion = '2.4.2'
 }
 
 repositories {
@@ -72,6 +72,6 @@ jar {
 }
 
 install {
-    
+
 }
 

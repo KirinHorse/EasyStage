@@ -154,7 +154,7 @@ public class StageGetter {
                 objects.put(id, actor);
             }
             if (actor instanceof Group) {
-                array.addAll(getChildrens(root));
+                array.addAll(getChildrens((Group) actor));
             }
         }
         return array;
