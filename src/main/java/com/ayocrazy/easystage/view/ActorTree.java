@@ -22,6 +22,7 @@ import net.mwplay.nativefont.NativeLabel;
 public class ActorTree extends Tree {
     private Skin skin;
     private IntMap<ActorBean> beans = new IntMap<>();
+    private Node last;
 
     public ActorTree(Skin skin) {
         super(skin);
@@ -33,9 +34,10 @@ public class ActorTree extends Tree {
         addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Node node = getSelection().getLastSelected();
-                ActorBean bean = (ActorBean) node.getObject();
-                Client.get().setCurrentActor(node == null ? null : (ActorBean) node.getObject());
+                last = getSelection().getLastSelected();
+                if (last == null) return;
+                ActorBean bean = (ActorBean) last.getObject();
+                Client.get().setCurrentActor(bean);
             }
         });
     }
@@ -66,6 +68,12 @@ public class ActorTree extends Tree {
             @Override
             public void run() {
                 addNodes(null, beans.get(stage.getRoot()));
+                if (last == null) return;
+                try {
+                    Node node = findNode(last.getObject());
+                    node.expandTo();
+                } catch (Exception e) {
+                }
             }
         });
     }
