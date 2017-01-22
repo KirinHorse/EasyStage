@@ -1,18 +1,10 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'com.netflix.nebula:nebula-project-plugin:3.3.0'
-    }
+plugins {
+    id 'java'
+    id 'maven'
+    id 'idea'
+    id 'jacoco'
+    id 'nebula.facet' version '3.3.0'
 }
-
-apply plugin: "idea"
-apply plugin: "java"
-apply plugin: "maven"
-apply plugin: 'jacoco'
-apply plugin: 'nebula.facet'
 
 group = 'com.github.ayocrazy'
 version = '0.0.1'
