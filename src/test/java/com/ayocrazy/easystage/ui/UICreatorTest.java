@@ -7,7 +7,7 @@ import com.ayocrazy.easystage.uimeta.MetaCheckBox;
 import com.ayocrazy.easystage.uimeta.MetaText;
 import com.ayocrazy.easystage.uimeta.MetaVector;
 import com.ayocrazy.easystage.util.SkinHelper;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,7 +63,7 @@ public class UICreatorTest {
         private Boolean trueOrFalse;
     }
 
-    class MetaVectorBean extends BaseBean{
+    class MetaVectorBean extends BaseBean {
         @MetaVector
         private float[] vectors;
     }
