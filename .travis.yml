@@ -11,3 +11,6 @@ jdk:
 
 env:
  - GDX_VERSION=1.9.5
+
+after_success:
+  - travis/jitpack-trigger.sh
