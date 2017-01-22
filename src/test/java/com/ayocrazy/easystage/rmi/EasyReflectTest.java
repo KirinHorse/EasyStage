@@ -3,7 +3,7 @@ package com.ayocrazy.easystage.rmi;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class EasyReflectTest {
 
@@ -19,12 +19,12 @@ public class EasyReflectTest {
     public void shouldSetValue() throws Exception {
         TestObject testObject = new TestObject();
         testObject.setText("test");
-        EasyReflect.setValue("text", testObject,"newValue");
+        EasyReflect.setValue("text", testObject, "newValue");
         assertThat(testObject.getText(), is("newValue"));
     }
 
 
-    class TestObject{
+    class TestObject {
         private String text;
 
         public String getText() {
