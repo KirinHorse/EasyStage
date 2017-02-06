@@ -35,8 +35,8 @@ public class ActorTree extends Tree {
                 last = getSelection().getLastSelected();
                 if (last == null) return;
                 Object obj = last.getObject();
-                if (obj instanceof ActorBean) {
-                    Client.get().setCurrentActor((ActorBean) obj);
+                if (obj instanceof Integer) {
+                    Client.get().setCurrentActor(beans.get((int) obj));
                 }
             }
         });
@@ -44,7 +44,7 @@ public class ActorTree extends Tree {
 
     public void addNodes(Node parent, ActorBean actor) {
         Node node = new Node(new NativeLabel(actor.getName(), skin.get(Label.LabelStyle.class)));
-        node.setObject(actor);
+        node.setObject(actor.getId());
         if (parent != null) {
             parent.add(node);
         } else {
@@ -72,7 +72,7 @@ public class ActorTree extends Tree {
                 if (last == null) return;
                 Object obj = last.getObject();
                 if (obj != null) {
-                    Node node = findNode(last.getObject());
+                    Node node = findNode(obj);
                     if (node != null) node.expandTo();
                 }
             }

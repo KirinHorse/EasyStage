@@ -16,25 +16,15 @@ import java.rmi.server.UnicastRemoteObject;
  */
 
 public class StageIRemote extends UnicastRemoteObject implements IRemote {
+    private Stage stage;
     private StageGetter stageGetter;
     private StageSetter stageSetter;
     private IntMap<ActorGetter> actorGetters = new IntMap<>();
 
     public StageIRemote(Stage stage) throws RemoteException {
+        this.stage = stage;
         stageGetter = new StageGetter(stage);
         stageSetter = new StageSetter(stageGetter);
-        actorGetters(stage.getRoot());
-    }
-
-    private void actorGetters(Group group) {
-        actorGetters.put(group.hashCode(), new ActorGetter(group, stageGetter));
-        for (Actor actor : group.getChildren()) {
-            if (actor instanceof Group) {
-                actorGetters((Group) actor);
-            } else {
-                actorGetters.put(actor.hashCode(), new ActorGetter(actor, stageGetter));
-            }
-        }
     }
 
     @Override
@@ -50,24 +40,40 @@ public class StageIRemote extends UnicastRemoteObject implements IRemote {
 
     public void setStage(Stage stage) {
         if (stageGetter != null && stageGetter.stage == stage) return;
+        this.stage = stage;
         stageGetter = new StageGetter(stage);
         stageSetter = new StageSetter(stageGetter);
-        actorGetters.clear();
-        actorGetters(stage.getRoot());
     }
 
     @Override
     public ActorBean getActor(int id) throws RemoteException {
-        return actorGetters.get(id).refreshActor();
+        ActorGetter getter = actorGetters.get(id);
+        if (getter != null)
+            return getter.refreshActor();
+        else return null;
     }
 
     @Override
     public ActorBean[] getActors() throws RemoteException {
+        actorGetters.clear();
+        actorGetters(stage.getRoot());
         ActorBean[] beans = new ActorBean[actorGetters.size];
         Array<ActorGetter> getters = actorGetters.values().toArray();
         for (int i = 0; i < beans.length; i++) {
             beans[i] = getters.get(i).refreshActor();
         }
         return beans;
+    }
+
+
+    private void actorGetters(Group group) {
+        actorGetters.put(group.hashCode(), new ActorGetter(group, stageGetter));
+        for (Actor actor : group.getChildren()) {
+            if (actor instanceof Group) {
+                actorGetters((Group) actor);
+            } else {
+                actorGetters.put(actor.hashCode(), new ActorGetter(actor, stageGetter));
+            }
+        }
     }
 }
