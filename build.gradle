@@ -19,10 +19,19 @@ repositories {
     maven { url "https://jitpack.io/" }
 }
 
+configurations {
+    providedCompile
+}
+
+sourceSets {
+    main { compileClasspath += configurations.providedCompile }
+    test { compileClasspath += configurations.providedCompile }
+}
+
 dependencies {
-    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-    compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
-    compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    providedCompile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    providedCompile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+    providedCompile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     compile "cglib:cglib:$cglibVersion"
     compile "com.github.tianqiujie:nativefont:2.4.4"
     testCompile 'junit:junit:4.12'
