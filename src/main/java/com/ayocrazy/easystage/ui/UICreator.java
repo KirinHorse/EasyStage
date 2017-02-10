@@ -68,6 +68,7 @@ public class UICreator extends Table {
                     }
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

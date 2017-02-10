@@ -23,11 +23,6 @@ configurations {
     providedCompile
 }
 
-sourceSets {
-    main { compileClasspath += configurations.providedCompile }
-    test { compileClasspath += configurations.providedCompile }
-}
-
 dependencies {
     providedCompile "com.badlogicgames.gdx:gdx:$gdxVersion"
     providedCompile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
@@ -39,6 +34,11 @@ dependencies {
     testCompile 'org.mockito:mockito-core:1.10.19'
     testCompile 'org.hamcrest:hamcrest-library:1.3'
     testCompile "com.badlogicgames.gdx:gdx-backend-jglfw:$gdxVersion"
+}
+
+sourceSets {
+    main { compileClasspath += configurations.providedCompile }
+    test { compileClasspath += configurations.providedCompile }
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_7
