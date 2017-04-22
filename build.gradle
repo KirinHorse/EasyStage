@@ -52,6 +52,7 @@ task run(dependsOn: demoClasses, type: JavaExec) {
     classpath = sourceSets.demo.runtimeClasspath
     standardInput = System.in
     workingDir = "$projectDir/src/demo/resources"
+    jvmArgs = [ '-XstartOnFirstThread']
     ignoreExitValue = true
 }
 
